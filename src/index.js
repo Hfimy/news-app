@@ -1,6 +1,18 @@
-import React from 'react';
+import React,{Component} from 'react';
 import {render} from 'react-dom';
-import Greeter from './greeter';
 
-render(<Greeter />, document.getElementById('root'));
+import PcIndex from './pc/index';
+
+class Root extends Component{
+    
+    render(){
+        return (
+            <PcIndex/>
+        )
+    }
+}
+
+render(<Root/>,document.getElementById('root'));
+
+
 

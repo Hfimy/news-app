@@ -1,9 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-    entry: path.resolve(__dirname,'src/index.js'),
+    entry: path.resolve(__dirname ,'src/index.js'),
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.js',
@@ -14,7 +15,6 @@ module.exports = {
         historyApiFallback: true,
         inline: true,
         hot: true,
-        port:8081,
     },
     module: {
         rules: [
@@ -24,24 +24,31 @@ module.exports = {
                 loader: 'babel-loader',
             },
             {
-             test: /\.css|\.less$/,
-             use: ['style-loader', 
-                    {
+           test: /\.css|\.less$/,
+           use: ExtractTextPlugin.extract({
+                 fallback: 'style-loader',
+                 use: [ {
                     loader:'css-loader',
                     options:{
                         modules:true
                     }
-                 },
-                 'less-loader',
-                 'postcss-loader'
-             ]
-          }
+                 },'less-loader','postcss-loader']
+             })
+            }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname,'src/index.tmpl.html'),
+            template: path.resolve(__dirname ,'src/index.tmpl.html'),
         }),
+        new webpack.BannerPlugin('版权所有，翻版必究'),
+        new webpack.optimize.CommonsChunkPlugin({
+            name:'commons',
+            filename:'commons.js'
+        }),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.optimize.UglifyJsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
+        new ExtractTextPlugin('style.css'),
     ]
 }
