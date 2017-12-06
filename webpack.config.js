@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: path.resolve(__dirname,'src/index.js'),
+    entry: path.resolve(__dirname, 'src/index.js'),
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.js',
@@ -14,7 +14,7 @@ module.exports = {
         historyApiFallback: true,
         inline: true,
         hot: true,
-        port:8081,
+        port: 8080,
     },
     module: {
         rules: [
@@ -24,23 +24,18 @@ module.exports = {
                 loader: 'babel-loader',
             },
             {
-             test: /\.css|\.less$/,
-             use: ['style-loader', 
-                    {
-                    loader:'css-loader',
-                    options:{
-                        modules:true
-                    }
-                 },
-                 'less-loader',
-                 'postcss-loader'
-             ]
-          }
+                test: /\.css|\.less$/,
+                use: ['style-loader',
+                    'css-loader',
+                    'less-loader',
+                    //  'postcss-loader'
+                ]
+            }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname,'src/index.tmpl.html'),
+            template: path.resolve(__dirname, 'src/index.tmpl.html'),
         }),
         new webpack.HotModuleReplacementPlugin(),
     ]
