@@ -3,7 +3,7 @@ import React from 'react';
 import Header from './header';
 import Footer from './footer';
 
-import '../../public/pc.less'
+// import '../../public/pc.less'
 
 export default () => (
     <div>

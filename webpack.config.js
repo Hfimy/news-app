@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: path.resolve(__dirname, 'src/index.js'),
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'public'),
         filename: '[name].bundle.js',
     },
     devtool: 'eval-source-map',
@@ -14,7 +14,7 @@ module.exports = {
         historyApiFallback: true,
         inline: true,
         hot: true,
-        port: 8080,
+        port: 8081,
     },
     module: {
         rules: [

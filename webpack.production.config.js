@@ -11,12 +11,12 @@ module.exports = {
         filename: '[name].bundle.js',
     },
     devtool: 'eval-source-map',
-    devServer: {
-        contentBase: path.resolve(__dirname, 'public'),
-        historyApiFallback: true,
-        inline: true,
-        hot: true,
-    },
+    // devServer: {
+    //     contentBase: path.resolve(__dirname, 'public'),
+    //     historyApiFallback: true,
+    //     inline: true,
+    //     hot: true,
+    // },
     module: {
         rules: [
             {
@@ -50,6 +50,6 @@ module.exports = {
         // new webpack.optimize.UglifyJsPlugin(),
         new UglifyJsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new ExtractTextPlugin('style.css'),
+        new ExtractTextPlugin('styles.css'),
     ]
 }

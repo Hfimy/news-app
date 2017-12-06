@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "start webpack-dev-server",
+    "dev": "start webpack-dev-server --public",
     "build": "set NODE_ENV=production && start webpack --config ./webpack.production.config.js --progress"
   },
   "author": "",
@@ -26,8 +26,6 @@
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "postcss-loader": "^2.0.9",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
     "react-transform-hmr": "^1.0.4",
     "style-loader": "^0.19.0",
     "uglifyjs-webpack-plugin": "^1.1.2",
@@ -35,7 +33,7 @@
     "webpack-dev-server": "^2.9.4"
   },
   "dependencies": {
-    "react": "^16.1.1",
-    "react-dom": "^16.1.1"
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2"
   }
 }

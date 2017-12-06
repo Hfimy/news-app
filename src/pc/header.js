@@ -15,7 +15,10 @@ class Header extends Component {
             <header>
                 <Row>
                     <Col span={2}></Col>
-                    <Col span={4}>hello</Col>
+                    <Col span={4}>
+                        <img src='./image/logo.png' width='48'/>
+                        <span>新闻首页</span>
+                    </Col>
                     <Col span={16}>
                         <Menu
                             onClick={this.handleClick}
@@ -47,7 +50,6 @@ class Header extends Component {
                             </Menu.Item>
                         </Menu>
                     </Col>
-                    
                     <Col span={2}></Col>
                 </Row>
             </header>
