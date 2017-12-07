@@ -7,7 +7,7 @@ class Header extends Component {
     state = {
         current: 'home',
         hasLogined: false,
-        userName: '',
+        username: '',
         showLoginModal: false,
         showRegistryModal: false,
         users: [],
@@ -38,7 +38,7 @@ class Header extends Component {
                 for(let i=0;i<users.length;i++){
                     if(username===users[i].username&&password===users[i].password){
                         message.success('登录成功!');
-                        this.setState({hasLogined:true,showLoginModal:false});
+                        this.setState({hasLogined:true,username,showLoginModal:false});
                         this.props.form.resetFields();
                         return;
                     }
@@ -92,11 +92,11 @@ class Header extends Component {
         }
     }
     render() {
-        const { hasLogined, showLoginModal, showRegistryModal } = this.state;
+        const { hasLogined, username, showLoginModal, showRegistryModal } = this.state;
         const { getFieldDecorator } = this.props.form;
         const userShow = hasLogined
-            ? <Menu.Item key='userCenter' className='fr'><Icon type='appstore' />
-                <Button type='primary'>用户名</Button>
+            ? <Menu.Item key='userCenter' className='fr'>
+                <Button type='primary'>{username}</Button>
                 <Button type='dashed'>个人中心</Button>
                 <Button type='default'>退出</Button>
             </Menu.Item>
