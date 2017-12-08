@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
-import { Row, Col, Menu, Icon, Modal, Button, Tabs, Form, Input,message } from 'antd'
+import { Row, Col, Menu, Icon, Modal, Button, Tabs, Form, Input, message } from 'antd'
+import { locale } from '../../node_modules/_moment@2.19.3@moment';
 
 const TabPane = Tabs.TabPane, FormItem = Form.Item;
 
 class Header extends Component {
     state = {
         current: 'home',
-        hasLogined: false,
-        username: '',
         showLoginModal: false,
         showRegistryModal: false,
-        users: [],
     }
+
     handleClick = (e) => {
         if (e.key === 'login') {
             this.setState({ showLoginModal: true })
@@ -20,31 +19,36 @@ class Header extends Component {
             current: e.key
         })
     }
+    handleLogout=(e)=>{
+        if(sessionStorage['hasLogined']){
+            // sessionStorage.removeItem('hasLogined');
+            // sessionStorage.removeItem('currentUser')
+            sessionStorage.clear();
+        }
+    }
 
     handleLoginCancel = () => {
         this.setState({ showLoginModal: false })
     }
-    handleShowRegistry = () => {
+    handleToRegistry = () => {
         this.setState({ showLoginModal: false }, () => {
             this.setState({ showRegistryModal: true })
         })
     }
     handleLoginSubmit = (e) => {
         e.preventDefault();
-        this.props.form.validateFields(['username','password'],(err,values)=>{
-            if(!err){
-                const {username,password}=values;
-                const users=this.state.users;
-                for(let i=0;i<users.length;i++){
-                    if(username===users[i].username&&password===users[i].password){
-                        message.success('登录成功!');
-                        this.setState({hasLogined:true,username,showLoginModal:false});
-                        this.props.form.resetFields();
-                        return;
-                    }
+        this.props.form.validateFields(['username', 'password'], (err, values) => {
+            if (!err) {
+                const { username, password } = values;
+                if(localStorage[username]&&localStorage[username]===password){
+                    sessionStorage.setItem('hasLogined',true);
+                    sessionStorage.setItem('currentUser',username);
+                    this.setState({showLoginModal:false});
+                    message.success('登录成功!');
+                    this.props.form.resetFields();
+                    return;
                 }
                 message.error('用户名或密码错误');
-                return;
             }
         })
     }
@@ -53,32 +57,15 @@ class Header extends Component {
     handleRegistryCancel = () => {
         this.setState({ showRegistryModal: false })
     }
-    handleRegistrySubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields(['re_username', 're_password', 'confirm_password'], (err, values) => {
-            if (!err) {
-                const { re_username: username, re_password: password } = values;
-                const newUsers = this.state.users;
-                newUsers.push({ username, password });
-                this.props.form.resetFields();
-                this.setState({ users: newUsers }, () => {
-                    this.setState({ showRegistryModal: false });
-                    message.success('注册成功');
-                });
-            }
+    handleBackToLogin=()=>{
+        this.setState({showRegistryModal:false},()=>{
+            this.setState({showLoginModal:true})
         })
     }
     checkUsername = (rule, value, callback) => {
         const form = this.props.form;
-        const users = this.state.users;
-        if (value) {
-            for (let i = 0; i < users.length; i++) {
-                if (value === users[i].username) {
-                    callback('Username already exists');
-                    return;
-                }
-            }
-            callback();
+        if (value && localStorage[value]) {
+            callback('Username already exists');
         } else {
             callback();
         }
@@ -91,14 +78,28 @@ class Header extends Component {
             callback();
         }
     }
+    handleRegistrySubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields(['re_username', 're_password', 'confirm_password'], (err, values) => {
+            if (!err) {
+                const { re_username: username, re_password: password } = values;
+                localStorage.setItem(username, password);
+                this.setState({ showRegistryModal: false });
+                message.success('注册成功');
+                this.props.form.resetFields();
+            }
+        })
+    }
+
+
     render() {
-        const { hasLogined, username, showLoginModal, showRegistryModal } = this.state;
+        const {showLoginModal, showRegistryModal } = this.state;
         const { getFieldDecorator } = this.props.form;
-        const userShow = hasLogined
+        const userCenter = sessionStorage.getItem('hasLogined')
             ? <Menu.Item key='userCenter' className='fr'>
-                <Button type='primary'>{username}</Button>
+                <Button type='primary'>{sessionStorage.getItem('currentUser')}</Button>
                 <Button type='dashed'>个人中心</Button>
-                <Button type='default'>退出</Button>
+                <Button type='default' onClick={this.handleLogout}>退出</Button>
             </Menu.Item>
             : <Menu.Item key='login' className='fr'><Icon type='appstore' />注册/登录
             </Menu.Item>;
@@ -115,7 +116,7 @@ class Header extends Component {
             <header>
                 <Row>
                     <Col span={2}></Col>
-                    <Col span={4} className='logo'>
+                    <Col span={4} class='logo'>
                         <img src='./image/logo.png' width='48' />
                         <span>新闻首页</span>
                     </Col>
@@ -129,7 +130,7 @@ class Header extends Component {
                             <Menu.Item key='international'><Icon type='appstore' />国际</Menu.Item>
                             <Menu.Item key='finance'><Icon type='appstore' />财经</Menu.Item>
                             <Menu.Item key='technology'><Icon type='appstore' />科技</Menu.Item>
-                            {userShow}
+                            {userCenter}
                         </Menu>
                         <Modal title='登录中心' visible={showLoginModal} onCancel={this.handleLoginCancel}
                             maskClosable={false} footer={null}>
@@ -152,13 +153,13 @@ class Header extends Component {
                                     <span className='prompt-registry'>您还没有账户？ 请先注册一个吧！</span>
                                 </FormItem>
                                 <FormItem className='footer-btn'>
-                                    <Button onClick={this.handleShowRegistry}>注册</Button>
+                                    <Button onClick={this.handleToRegistry}>注册</Button>
                                     <Button type='primary' htmlType='submit'>登录</Button>
                                 </FormItem>
                             </Form>
                         </Modal>
                         <Modal title='注册中心' visible={showRegistryModal} onCancel={this.handleRegistryCancel}
-                            maskClosable={false} width={400} footer={null}>
+                            maskClosable={false} footer={null}>
                             <Form onSubmit={this.handleRegistrySubmit}>
                                 <FormItem label='用户名' {...formItemLayout}>
                                     {getFieldDecorator('re_username', {
@@ -184,7 +185,7 @@ class Header extends Component {
                                         )}
                                 </FormItem>
                                 <FormItem className='footer-btn'>
-                                    <Button onClick={this.handleRegistryCancel}>取消</Button>
+                                    <Button onClick={this.handleBackToLogin}>返回</Button>
                                     <Button type='primary' htmlType='submit'>注册</Button>
                                 </FormItem>
                             </Form>

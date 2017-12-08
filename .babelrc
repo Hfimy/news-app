@@ -11,7 +11,8 @@
                 "libraryName": "antd",
                 "style": true
             }
-        ]
+        ],
+        ["react-html-attrs"]
     ],
     "env": {
         "development": {
