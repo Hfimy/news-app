@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import { Row, Col, Menu, Icon, Modal, Button, Tabs, Form, Input, message } from 'antd'
 import { locale } from '../../node_modules/_moment@2.19.3@moment';
 
@@ -19,8 +20,8 @@ class Header extends Component {
             current: e.key
         })
     }
-    handleLogout=(e)=>{
-        if(sessionStorage['hasLogined']){
+    handleLogout = (e) => {
+        if (sessionStorage['hasLogined']) {
             // sessionStorage.removeItem('hasLogined');
             // sessionStorage.removeItem('currentUser')
             sessionStorage.clear();
@@ -40,10 +41,10 @@ class Header extends Component {
         this.props.form.validateFields(['username', 'password'], (err, values) => {
             if (!err) {
                 const { username, password } = values;
-                if(localStorage[username]&&localStorage[username]===password){
-                    sessionStorage.setItem('hasLogined',true);
-                    sessionStorage.setItem('currentUser',username);
-                    this.setState({showLoginModal:false});
+                if (localStorage[username] && localStorage[username] === password) {
+                    sessionStorage.setItem('hasLogined', true);
+                    sessionStorage.setItem('currentUser', username);
+                    this.setState({ showLoginModal: false });
                     message.success('登录成功!');
                     this.props.form.resetFields();
                     return;
@@ -57,9 +58,9 @@ class Header extends Component {
     handleRegistryCancel = () => {
         this.setState({ showRegistryModal: false })
     }
-    handleBackToLogin=()=>{
-        this.setState({showRegistryModal:false},()=>{
-            this.setState({showLoginModal:true})
+    handleBackToLogin = () => {
+        this.setState({ showRegistryModal: false }, () => {
+            this.setState({ showLoginModal: true })
         })
     }
     checkUsername = (rule, value, callback) => {
@@ -93,7 +94,7 @@ class Header extends Component {
 
 
     render() {
-        const {showLoginModal, showRegistryModal } = this.state;
+        const { showLoginModal, showRegistryModal } = this.state;
         const { getFieldDecorator } = this.props.form;
         const userCenter = sessionStorage.getItem('hasLogined')
             ? <Menu.Item key='userCenter' className='fr'>
@@ -117,8 +118,10 @@ class Header extends Component {
                 <Row>
                     <Col span={2}></Col>
                     <Col span={4} class='logo'>
-                        <img src='./image/logo.png' width='48' />
-                        <span>新闻首页</span>
+                        <Link to='/'>
+                            <img src='./image/logo.png' width='48' />
+                            <span>新闻首页</span>
+                        </Link>
                     </Col>
                     <Col span={16}>
                         <Menu selectedKeys={[this.state.current]} onClick={this.handleClick} mode="horizontal">
