@@ -28,14 +28,15 @@ export default class NewsList extends PureComponent {
 
     render() {
         const { newsList } = this.state;
+        const news = newsList.length
+            ? newsList.map((item, index) =>
+                <li key={index}><Link to='/'>{item.title}</Link></li>
+            )
+            : '正在加载中';
         return (
             <Card>
                 <ul>
-                    {
-                        newsList.map((item, index) =>
-                            <li key={index}><Link to='/'>{item.title}</Link></li>
-                        )
-                    }
+                    {news}
                 </ul>
             </Card>
         )

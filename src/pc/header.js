@@ -119,7 +119,7 @@ class Header extends Component {
                     <Col span={2}></Col>
                     <Col span={4} class='logo'>
                         <Link to='/'>
-                            <img src='./image/logo.png' width='48' />
+                            <img src='./image/logo.png'/>
                             <span>新闻首页</span>
                         </Link>
                     </Col>
