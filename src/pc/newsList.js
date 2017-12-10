@@ -11,7 +11,7 @@ export default class NewsList extends PureComponent {
     }
     static defaultProps = {
         type: 'top',
-        count: 22
+        count: 20
     }
 
     state = {
