@@ -18,10 +18,10 @@ export default class Container extends PureComponent {
                     <div class='left'>
                         <div class='carousel clearfix'>
                             <Carousel autoplay={true}>
-                                <Link to='/detail'><img src='./image/1.png' /></Link>
-                                <Link to='/detail'><img src='./image/2.jpeg' /></Link>
-                                <Link to='/detail'><img src='./image/3.jpeg' /></Link>
-                                <Link to='/detail'><img src='./image/4.jpeg' /></Link>
+                                <Link to='/detail/161026201417643'><img src='./image/1.png' /></Link>
+                                <Link to='/detail/161026201417643'><img src='./image/2.jpeg' /></Link>
+                                <Link to='/detail/161026201417643'><img src='./image/3.jpeg' /></Link>
+                                <Link to='/detail/161026201417643'><img src='./image/4.jpeg' /></Link>
                             </Carousel>
                         </div>
                         <ImagesList type='junshi' count={6} cardTitle='军事新闻' />
