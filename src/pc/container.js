@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Link } from 'react-router'
 
 import NewsList from './newsList'
 import ImagesList from './imagesList'
@@ -17,10 +18,10 @@ export default class Container extends PureComponent {
                     <div class='left'>
                         <div class='carousel clearfix'>
                             <Carousel autoplay={true}>
-                                <img src='./image/1.png' />
-                                <img src='./image/2.jpeg' />
-                                <img src='./image/3.jpeg' />
-                                <img src='./image/4.jpeg' />
+                                <Link to='/detail'><img src='./image/1.png' /></Link>
+                                <Link to='/detail'><img src='./image/2.jpeg' /></Link>
+                                <Link to='/detail'><img src='./image/3.jpeg' /></Link>
+                                <Link to='/detail'><img src='./image/4.jpeg' /></Link>
                             </Carousel>
                         </div>
                         <ImagesList type='junshi' count={6} cardTitle='军事新闻' />

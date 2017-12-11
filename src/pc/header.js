@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import { Row, Col, Menu, Icon, Modal, Button, Tabs, Form, Input, message } from 'antd'
 import { locale } from '../../node_modules/_moment@2.19.3@moment';
 
 const TabPane = Tabs.TabPane, FormItem = Form.Item;
 
-class Header extends Component {
+class Header extends PureComponent {
     state = {
         current: 'home',
         showLoginModal: false,

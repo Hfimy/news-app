@@ -30,7 +30,7 @@ export default class NewsList extends PureComponent {
         const { newsList } = this.state;
         const news = newsList.length
             ? newsList.map((item, index) =>
-                <li key={index}><Link to='/'>{item.title}</Link></li>
+                <li key={index}><Link to={`/detail/${item.uniquekey}`}>{item.title}</Link></li>
             )
             : '正在加载中';
         return (
