@@ -45,7 +45,7 @@ export default class ImageList extends Component {
         }
         return true;
     }
-
+//    
     render() {
         const { imageList } = this.state;
         const images = imageList.length
