@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import ImagesList from './imagesList'
+import ImageList from './imageList'
 import Comment from '../common/comment'
 
 import { Row, Col } from 'antd'
@@ -15,72 +15,64 @@ export default class Detail extends Component {
 
     }
     state = {
-        newsItem: '',
+        newsItem: {},
     }
-    componentDidMount() {
-        fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnewsitem&uniquekey=${this.props.params.uniquekey}`, { method: 'GET' })
+
+    componentWillMount() {
+        if (this.props.params && this.props.params.uniquekey !== undefined) {
+            this.updateDetail(this.props.params.uniquekey);
+        }
+    }
+
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.params && nextProps.params.uniquekey) {
+            if (nextProps.params.uniquekey !== this.props.params.uniquekey) {
+                this.updateDetail(nextProps.params.uniquekey)
+            }
+        }
+        return true;
+    }
+
+    updateDetail = (key) => {
+        fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnewsitem&uniquekey=${key}`, { method: 'GET' })
             .then(response => response.json())
             .then(response => {
-                this.shouldUpdate = false;
                 this.setState({ newsItem: response }, () => {
                     document.title = this.state.newsItem.title
                 })
             })
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-
-        if (nextProps.params.uniquekey) {
-            if (nextProps.params.uniquekey !== this.props.params.uniquekey) {
-                this.shouldUpdate = true;
-            }
-        }
-
-        return true;
-    }
-    componentDidUpdate() {
-        if (this.shouldUpdate) {
-            fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnewsitem&uniquekey=${this.props.params.uniquekey}`, { method: 'GET' })
-                .then(response => response.json())
-                .then(response => {
-                    this.shouldUpdate = false;
-                    this.setState({ newsItem: response }, () => {
-                        document.title = this.state.newsItem.title
-                    })
-                })
-        }
-    }
     render() {
         const { newsItem } = this.state;
         let type;
-        console.log(newsItem.realtype)
-        switch(newsItem.realtype){
+        switch (newsItem.realtype) {
             case '头条':
-                type='top';
+                type = 'top';
                 break;
             case '娱乐':
-                type='yule';
+                type = 'yule';
                 break;
             case '军事':
-                type='junshi';
+                type = 'junshi';
                 break;
             case '财经':
-                type='caijing';
+                type = 'caijing';
                 break;
             case '国际':
-                type='guoji';
+                type = 'guoji';
                 break;
             case '国内':
-                type='guonei';
+                type = 'guonei';
                 break;
             case '科技':
-                type='keji';
+                type = 'keji';
                 break;
             case '时尚':
-                type='shishang';
+                type = 'shishang';
                 break;
             default:
-                type='top'
+                type = 'top'
                 break;
         }
         return (
@@ -88,10 +80,10 @@ export default class Detail extends Component {
                 <Col span={6} />
                 <Col span={10}>
                     <div class='news-detail' dangerouslySetInnerHTML={{ __html: newsItem.pagecontent }}></div>
-                    <Comment />
+                    <Comment uniquekey={newsItem.uniquekey} />
                 </Col>
                 <Col span={6} offset={1}>
-                    <ImagesList cardTitle='相关新闻' type={type} cardWidth='80%' imgWidth='130px' count={30} />
+                    <ImageList cardTitle='相关新闻' type={type} cardWidth='80%' imgWidth='130px' count={30} />
                 </Col>
                 <Col span={2} />
             </Row>

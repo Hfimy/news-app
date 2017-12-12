@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Link } from 'react-router'
 
 import NewsList from './newsList'
-import ImagesList from './imagesList'
+import ImageList from './imageList'
 
 import { Row, Col, Carousel, Tabs } from 'antd'
 
@@ -24,7 +24,7 @@ export default class Container extends PureComponent {
                                 <Link to='/detail/161026201417643'><img src='./image/4.jpeg' /></Link>
                             </Carousel>
                         </div>
-                        <ImagesList type='junshi' count={6} cardTitle='军事新闻' />
+                        <ImageList type='junshi' count={6} cardTitle='军事新闻' />
                     </div>
                     <div class='news-list clearfix'>
                         <Tabs>
@@ -38,8 +38,8 @@ export default class Container extends PureComponent {
                     </div>
 
                     <div class='clearfix'>
-                        <ImagesList type='caijing' count={10} cardTitle='财经新闻' />
-                        <ImagesList type='yule' count={20} cardTitle='娱乐新闻' />
+                        <ImageList type='caijing' count={10} cardTitle='财经新闻' />
+                        <ImageList type='yule' count={20} cardTitle='娱乐新闻' />
                     </div>
                 </Col>
                 <Col span={2} />

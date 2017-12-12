@@ -3,9 +3,9 @@ import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import { Card } from 'antd'
 
-import '../../public//style/pc_imagesList.less'
+import '../../public//style/pc_imageList.less'
 
-export default class ImagesList extends Component {
+export default class ImageList extends Component {
 
     static propTypes = {
         type: PropTypes.string,
@@ -23,40 +23,33 @@ export default class ImagesList extends Component {
     }
 
     state = {
-        imagesList: [],
+        imageList: [],
     }
 
     componentWillMount() {
-        fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=${this.props.type}&count=${this.props.count}`, { method: 'GET' })
+        this.updateImage(this.props.type, this.props.count)
+    }
+
+    updateImage = (type, count) => {
+        fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=${type}&count=${count}`, { method: 'GET' })
             .then(response => response.json())
             .then(response => {
-                this.shouldUpdate = false;
-                this.setState({ imagesList: response })
+                this.setState({ imageList: response })
             })
     }
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
         if (nextProps.type) {
             if (nextProps.type !== this.props.type) {
-                this.shouldUpdate = true;
+                this.updateImage(nextProps.type, nextProps.count)
             }
         }
         return true;
     }
-    componentDidUpdate() {
-        if (this.shouldUpdate) {
-            fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=${this.props.type}&count=${this.props.count}`, { method: 'GET' })
-                .then(response => response.json())
-                .then(response => {
-                    this.shouldUpdate = false;
-                    console.log(response)
-                    this.setState({ imagesList: response })
-                })
-        }
-    }
+
     render() {
-        const { imagesList } = this.state;
-        const images = imagesList.length
-            ? imagesList.map((item, index) => (
+        const { imageList } = this.state;
+        const images = imageList.length
+            ? imageList.map((item, index) => (
                 <li key={index}>
                     <Link to={`/detail/${item.uniquekey}`}>
                         <img width={this.props.imgWidth} src={item.thumbnail_pic_s} alt={item.title} />

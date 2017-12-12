@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import { Row, Col, Menu, Icon, Modal, Button, Tabs, Form, Input, message } from 'antd'
-import { locale } from '../../node_modules/_moment@2.19.3@moment';
 
 const TabPane = Tabs.TabPane, FormItem = Form.Item;
 
@@ -22,8 +21,6 @@ class Header extends PureComponent {
     }
     handleLogout = (e) => {
         if (sessionStorage['hasLogined']) {
-            // sessionStorage.removeItem('hasLogined');
-            // sessionStorage.removeItem('currentUser')
             sessionStorage.clear();
         }
     }
@@ -40,16 +37,24 @@ class Header extends PureComponent {
         e.preventDefault();
         this.props.form.validateFields(['username', 'password'], (err, values) => {
             if (!err) {
-                const { username, password } = values;
-                if (localStorage[username] && localStorage[username] === password) {
-                    sessionStorage.setItem('hasLogined', true);
-                    sessionStorage.setItem('currentUser', username);
-                    this.setState({ showLoginModal: false });
-                    message.success('登录成功!');
-                    this.props.form.resetFields();
-                    return;
-                }
-                message.error('用户名或密码错误');
+                let { username, password } = values;
+                username = encodeURIComponent(username), password = encodeURIComponent(password);
+
+                fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=login&username=${username}&password=${password}`)
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res) {
+                            sessionStorage.setItem('hasLogined', true);
+                            sessionStorage.setItem('UserId', res.UserId);
+                            sessionStorage.setItem('UserNickname', res.NickUserName);
+                            this.setState({ showLoginModal: false });
+                            message.success('登录成功!');
+                            this.props.form.resetFields();
+                            return;
+                        }
+                        message.error('用户名或密码错误');
+                    })
+
             }
         })
     }
@@ -63,14 +68,6 @@ class Header extends PureComponent {
             this.setState({ showLoginModal: true })
         })
     }
-    checkUsername = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && localStorage[value]) {
-            callback('Username already exists');
-        } else {
-            callback();
-        }
-    }
     checkPassword = (rule, value, callback) => {
         const form = this.props.form;
         if (value && value !== form.getFieldValue('re_password')) {
@@ -83,11 +80,20 @@ class Header extends PureComponent {
         e.preventDefault();
         this.props.form.validateFields(['re_username', 're_password', 'confirm_password'], (err, values) => {
             if (!err) {
-                const { re_username: username, re_password: password } = values;
-                localStorage.setItem(username, password);
-                this.setState({ showRegistryModal: false });
-                message.success('注册成功');
-                this.props.form.resetFields();
+                let { re_username: username, re_password: password } = values;
+                username = encodeURIComponent(username), password = encodeURIComponent(password);
+                fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=register&r_userName=${username}&r_password=${password}&r_confirmPassword=${password}`)
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res === true) {
+                            this.setState({ showRegistryModal: false });
+                            message.success('注册成功');
+                            this.props.form.resetFields();
+                            return;
+                        }
+                        //此处应该有注册失败的情况发生
+                        message('注册失败')
+                    })
             }
         })
     }
@@ -98,7 +104,7 @@ class Header extends PureComponent {
         const { getFieldDecorator } = this.props.form;
         const userCenter = sessionStorage.getItem('hasLogined')
             ? <Menu.Item key='userCenter' className='fr'>
-                <Button type='primary'>{sessionStorage.getItem('currentUser')}</Button>
+                <Button type='primary' title={sessionStorage.getItem('UserNickname')}><span class='username-btn'>{sessionStorage.getItem('UserNickname')}</span></Button>
                 <Button type='dashed'>个人中心</Button>
                 <Button type='default' onClick={this.handleLogout}>退出</Button>
             </Menu.Item>
@@ -119,7 +125,7 @@ class Header extends PureComponent {
                     <Col span={2}></Col>
                     <Col span={4} class='logo'>
                         <Link to='/'>
-                            <img src='./image/logo.png'/>
+                            <img src='./image/logo.png' />
                             <span>新闻首页</span>
                         </Link>
                     </Col>
@@ -166,8 +172,7 @@ class Header extends PureComponent {
                             <Form onSubmit={this.handleRegistrySubmit}>
                                 <FormItem label='用户名' {...formItemLayout}>
                                     {getFieldDecorator('re_username', {
-                                        rules: [{ required: true, message: 'Please input your username!' },
-                                        { validator: this.checkUsername }],
+                                        rules: [{ required: true, message: 'Please input your username!' }],
                                     })(
                                         <Input prefix={<Icon type='user' />} placeholder='Username' />
                                         )}

@@ -43,7 +43,15 @@
             margin: 0 auto;
         }
     }
-
+    .username-btn{
+            //此处block与inline-block有行为差异
+            display: block;
+            width:56px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+    }
     .prompt-registry {
         display: inline-block;
         font-style: italic;
@@ -103,4 +111,14 @@
 .empty-news{
     margin-top:100px;
     margin-bottom:100px;
+}
+.comment-card{
+    margin-top:10px;
+    margin-bottom:15px;
+}
+.comment-form{
+    padding-top:10px;
+    .ant-form-item-label{
+        margin-bottom:10px;
+    }
 }
