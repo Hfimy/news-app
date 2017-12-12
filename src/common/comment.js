@@ -1,6 +1,6 @@
-import React, {Component } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Button, Card, message } from 'antd'
+import { Form, Input, Button, Card, message, notification } from 'antd'
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
@@ -41,7 +41,7 @@ class Comment extends Component {
         }
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const comment=encodeURIComponent(values.comment);
+                const comment = encodeURIComponent(values.comment);
                 fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=comment&userId=${sessionStorage.UserId}&uniquekey=${this.props.uniquekey}&commnet=${comment}`, { method: 'GET' })
                     .then(res => res.json())
                     .then(res => {
@@ -53,6 +53,21 @@ class Comment extends Component {
                 this.props.form.resetFields();
             }
         })
+    }
+    addTOCollection = () => {
+        if (!sessionStorage.hasLogined) {
+            message.warning('请先登录');
+            return;
+        }
+        fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=uc&userId=${sessionStorage.UserId}&uniquekey=${this.props.uniquekey}`, { method: 'GET' })
+            .then(res => res.json())
+            .then(res => {
+                if (res === true) {
+                    notification['success']({ message: 'React News', description: '收藏成功！' })
+                    return;
+                }
+                notification['error']({ message: 'React News', description: '收藏失败！' })
+            })
     }
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -75,7 +90,10 @@ class Comment extends Component {
                             <TextArea autosize={{ minRows: 4, maxRows: 10 }} placeholder='随便写...' />
                             )}
                     </FormItem>
-                    <Button type='primary' htmlType='submit'>提交评论</Button>
+                    <FormItem class='comment-btn'>
+                        <Button type='primary' htmlType='submit'>提交评论</Button>
+                        <Button type='primary' htmlType='button' onClick={this.addTOCollection}>收藏此新闻</Button>
+                    </FormItem>
                 </Form>
             </div>
         )
