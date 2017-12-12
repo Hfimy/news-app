@@ -8,7 +8,7 @@ import Detail from './newsDetail'
 import '../../public/style/pc.less'
 
 export default () => (
-    <Router history={browserHistory}>
+    <Router history={hashHistory}>
         <Route path='/' component={App}>
             <IndexRoute component={Container}/>
             <Route path='detail/:uniquekey' component={Detail}/>

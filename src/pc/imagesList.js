@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import { Card } from 'antd'
 
 import '../../public//style/pc_imagesList.less'
 
-export default class ImagesList extends PureComponent {
+export default class ImagesList extends Component {
 
     static propTypes = {
         type: PropTypes.string,
@@ -30,10 +30,29 @@ export default class ImagesList extends PureComponent {
         fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=${this.props.type}&count=${this.props.count}`, { method: 'GET' })
             .then(response => response.json())
             .then(response => {
+                this.shouldUpdate = false;
                 this.setState({ imagesList: response })
             })
     }
-
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.type) {
+            if (nextProps.type !== this.props.type) {
+                this.shouldUpdate = true;
+            }
+        }
+        return true;
+    }
+    componentDidUpdate() {
+        if (this.shouldUpdate) {
+            fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=${this.props.type}&count=${this.props.count}`, { method: 'GET' })
+                .then(response => response.json())
+                .then(response => {
+                    this.shouldUpdate = false;
+                    console.log(response)
+                    this.setState({ imagesList: response })
+                })
+        }
+    }
     render() {
         const { imagesList } = this.state;
         const images = imagesList.length
