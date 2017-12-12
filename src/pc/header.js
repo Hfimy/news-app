@@ -105,7 +105,7 @@ class Header extends PureComponent {
         const userCenter = sessionStorage.getItem('hasLogined')
             ? <Menu.Item key='userCenter' className='fr'>
                 <Button type='primary' title={sessionStorage.getItem('UserNickname')}><span class='username-btn'>{sessionStorage.getItem('UserNickname')}</span></Button>
-                <Button type='dashed'>个人中心</Button>
+                <Button type='dashed'><Link to='/usercenter'>个人中心</Link></Button>
                 <Button type='default' onClick={this.handleLogout}>退出</Button>
             </Menu.Item>
             : <Menu.Item key='login' className='fr'><Icon type='appstore' />注册/登录

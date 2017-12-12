@@ -30,13 +30,6 @@ export default class ImageList extends Component {
         this.updateImage(this.props.type, this.props.count)
     }
 
-    updateImage = (type, count) => {
-        fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=${type}&count=${count}`, { method: 'GET' })
-            .then(response => response.json())
-            .then(response => {
-                this.setState({ imageList: response })
-            })
-    }
     shouldComponentUpdate(nextProps) {
         if (nextProps.type) {
             if (nextProps.type !== this.props.type) {
@@ -45,7 +38,14 @@ export default class ImageList extends Component {
         }
         return true;
     }
-//    
+
+    updateImage = (type, count) => {
+        fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=${type}&count=${count}`, { method: 'GET' })
+            .then(response => response.json())
+            .then(response => {
+                this.setState({ imageList: response })
+            })
+    }
     render() {
         const { imageList } = this.state;
         const images = imageList.length

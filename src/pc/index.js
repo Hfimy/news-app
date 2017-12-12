@@ -4,6 +4,7 @@ import {Router,Route,IndexRoute,Link,IndexLink,browserHistory,hashHistory} from 
 import App from './app'
 import Container from './container'
 import Detail from './newsDetail'
+import UserCenter from './userCenter'
 
 import '../../public/style/pc.less'
 
@@ -12,6 +13,7 @@ export default () => (
         <Route path='/' component={App}>
             <IndexRoute component={Container}/>
             <Route path='detail/:uniquekey' component={Detail}/>
+            <Route path='/usercenter' component={UserCenter}/>
         </Route>
     </Router>
 )
