@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import { Row, Col, Tabs, Card, message } from 'antd'
 const TabPane = Tabs.TabPane
 
-export default class UserCenter extends Component {
+export default class UserCenter extends PureComponent {
     static propTypes = {
 
     }

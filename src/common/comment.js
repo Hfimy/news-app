@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input, Button, Card, message, notification } from 'antd'
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
-class Comment extends Component {
+class Comment extends PureComponent {
 
 
     static propTypes = {

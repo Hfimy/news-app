@@ -127,7 +127,7 @@ class Header extends PureComponent {
                     <Col span={2}></Col>
                     <Col span={4} class='logo'>
                         <Link to='/'>
-                            <img src='./image/logo.png' />
+                            <img src='./static/image/logo.png' />
                             <span>新闻首页</span>
                         </Link>
                     </Col>

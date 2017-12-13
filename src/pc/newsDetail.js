@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import ImageList from './imageList'
@@ -6,7 +6,7 @@ import Comment from '../common/comment'
 
 import { Row, Col, message } from 'antd'
 
-export default class Detail extends Component {
+export default class Detail extends PureComponent {
 
     static propTypes = {
 

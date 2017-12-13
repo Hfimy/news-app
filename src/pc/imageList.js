@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import { Card, message } from 'antd'
 
 import '../../public//style/pc_imageList.less'
 
-export default class ImageList extends Component {
+export default class ImageList extends PureComponent {
 
     static propTypes = {
         type: PropTypes.string.isRequired,
