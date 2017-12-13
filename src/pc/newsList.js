@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
-import { Card } from 'antd'
+import { Card, message } from 'antd'
 
 export default class NewsList extends PureComponent {
 
@@ -19,11 +19,18 @@ export default class NewsList extends PureComponent {
     }
 
     componentWillMount() {
+        this._isMounted = true;
         fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=${this.props.type}&count=${this.props.count}`, { method: 'GET' })
-            .then(response => response.json())
-            .then(response => {
-                this.setState({ newsList: response })
-            })
+            .then(res => res.json())
+            .then(res => {
+                if (this._isMounted) {
+                    this.setState({ newsList: res })
+                }
+            }).catch(e => message.error('请求出错了'))
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     render() {

@@ -40,6 +40,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src/index.tmpl.html'),
+            favicon: path.resolve(__dirname, 'public/favicon.ico')
         }),
         new webpack.BannerPlugin('版权所有，翻版必究'),
         new webpack.optimize.CommonsChunkPlugin({

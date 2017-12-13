@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Row, Col, Tabs, Card } from 'antd'
+import { Row, Col, Tabs, Card, message } from 'antd'
 const TabPane = Tabs.TabPane
 
 export default class UserCenter extends Component {
@@ -16,22 +16,29 @@ export default class UserCenter extends Component {
         collections: [],
     }
 
-
-    componentDidlMount() {
+    componentWillMount() {
+        this._isMounted = true;
         if (sessionStorage.hasLogined) {
             fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getusercomments&userId=${sessionStorage.UserId}`, { method: 'GET' })
                 .then(res => res.json())
                 .then(res => {
-                    console.log(res)
-                    this.setState({ comments: res })
-                });
+                    if (this._isMounted) {
+                        this.setState({ comments: res })
+                    }
+                }).catch(e => message.error('请求出错了'))
+
             fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getuc&userId=${sessionStorage.UserId}`, { method: 'GET' })
                 .then(res => res.json())
                 .then(res => {
-                    this.setState({ collections: res })
-                });
+                    if (this._isMounted) {
+                        this.setState({ collections: res })
+                    }
+                }).catch(e => message.error('请求出错了'))
         }
 
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     render() {
@@ -39,7 +46,7 @@ export default class UserCenter extends Component {
         const commentList = comments.length
             ? comments.map((item, index) => (
                 <Card key={index}>
-                    {item}
+                    {item.Comments}
                 </Card>
             ))
             : '您还没有发表过任何评论~'
@@ -47,7 +54,7 @@ export default class UserCenter extends Component {
         const collectionList = collections.length
             ? collections.map((item, index) => (
                 <Card key={index}>
-                    {item}
+                    {item.Title}
                 </Card>
             ))
             : '您还没有收藏任何的新闻，快去收藏吧~'

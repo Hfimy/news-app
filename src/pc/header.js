@@ -14,6 +14,10 @@ class Header extends PureComponent {
     handleClick = (e) => {
         if (e.key === 'login') {
             this.setState({ showLoginModal: true })
+            return;
+        }
+        if (e.key === 'userCenter') {
+            return;
         }
         this.setState({
             current: e.key
@@ -43,18 +47,17 @@ class Header extends PureComponent {
                 fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=login&username=${username}&password=${password}`)
                     .then(res => res.json())
                     .then(res => {
-                        if (res) {
-                            sessionStorage.setItem('hasLogined', true);
-                            sessionStorage.setItem('UserId', res.UserId);
-                            sessionStorage.setItem('UserNickname', res.NickUserName);
-                            this.setState({ showLoginModal: false });
-                            message.success('登录成功!');
-                            this.props.form.resetFields();
+                        if (res === null) {
+                            message('用户名或密码错误');
                             return;
                         }
-                        message.error('用户名或密码错误');
-                    })
-
+                        sessionStorage.setItem('hasLogined', true);
+                        sessionStorage.setItem('UserId', res.UserId);
+                        sessionStorage.setItem('UserNickname', res.NickUserName);
+                        this.setState({ showLoginModal: false });
+                        message.success('登录成功!');
+                        this.props.form.resetFields();
+                    }).catch(e => message.error('请求出错了'))
             }
         })
     }
@@ -85,15 +88,14 @@ class Header extends PureComponent {
                 fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=register&r_userName=${username}&r_password=${password}&r_confirmPassword=${password}`)
                     .then(res => res.json())
                     .then(res => {
-                        if (res === true) {
-                            this.setState({ showRegistryModal: false });
-                            message.success('注册成功');
-                            this.props.form.resetFields();
+                        if (res !== true) {
+                            message('注册失败')
                             return;
                         }
-                        //此处应该有注册失败的情况发生
-                        message('注册失败')
-                    })
+                        this.setState({ showRegistryModal: false });
+                        message.success('注册成功');
+                        this.props.form.resetFields();
+                    }).catch(e => message.error('请求出错了'))
             }
         })
     }
@@ -106,7 +108,7 @@ class Header extends PureComponent {
             ? <Menu.Item key='userCenter' className='fr'>
                 <Button type='primary' title={sessionStorage.getItem('UserNickname')}><span class='username-btn'>{sessionStorage.getItem('UserNickname')}</span></Button>
                 <Button type='dashed'><Link to='/usercenter'>个人中心</Link></Button>
-                <Button type='default' onClick={this.handleLogout}>退出</Button>
+                <Button type='default' onClick={this.handleLogout}><Link to='/'>退出</Link></Button>
             </Menu.Item>
             : <Menu.Item key='login' className='fr'><Icon type='appstore' />注册/登录
             </Menu.Item>;
@@ -130,8 +132,8 @@ class Header extends PureComponent {
                         </Link>
                     </Col>
                     <Col span={16}>
-                        <Menu selectedKeys={[this.state.current]} onClick={this.handleClick} mode="horizontal">
-                            <Menu.Item key='home'><Icon type='home' />首页</Menu.Item>
+                        <Menu defaultSelectedKeys={['home']} selectedKeys={[this.state.current]} onClick={this.handleClick} mode="horizontal">
+                            <Menu.Item key='home'><Link to='/'><Icon type='home' />首页</Link></Menu.Item>
                             <Menu.Item key='entertainment'><Icon type='appstore' />娱乐</Menu.Item>
                             <Menu.Item key='military'><Icon type='appstore' />军事</Menu.Item>
                             <Menu.Item key='sports'><Icon type='appstore' />体育</Menu.Item>

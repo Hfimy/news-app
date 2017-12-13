@@ -18,13 +18,13 @@ export default class Container extends PureComponent {
                     <div class='left'>
                         <div class='carousel clearfix'>
                             <Carousel autoplay={true}>
-                                <Link to='/detail/161026201417643'><img src='./image/1.png' /></Link>
-                                <Link to='/detail/161026201417643'><img src='./image/2.jpeg' /></Link>
-                                <Link to='/detail/161026201417643'><img src='./image/3.jpeg' /></Link>
-                                <Link to='/detail/161026201417643'><img src='./image/4.jpeg' /></Link>
+                                <Link to='/detail/161028202106247'><img src='./image/p1.jpeg' /></Link>
+                                <Link to='/detail/161028200451646'><img src='./image/p2.jpeg' /></Link>
+                                <Link to='/detail/160918190420094'><img src='./image/p3.jpeg' /></Link>
+                                <Link to='/detail/161022131757539'><img src='./image/p4.jpg' /></Link>
                             </Carousel>
                         </div>
-                        <ImageList type='junshi' count={6} cardTitle='军事新闻' />
+                        <ImageList type='junshi' count={6} cardTitle='军事新闻' imgWidth='110px' />
                     </div>
                     <div class='news-list clearfix'>
                         <Tabs>

@@ -36,6 +36,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src/index.tmpl.html'),
+            favicon: path.resolve(__dirname, 'public/favicon.ico')
         }),
         new webpack.HotModuleReplacementPlugin(),
     ]

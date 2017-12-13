@@ -1,25 +1,22 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
-import { Card } from 'antd'
+import { Card, message } from 'antd'
 
 import '../../public//style/pc_imageList.less'
 
 export default class ImageList extends Component {
 
     static propTypes = {
-        type: PropTypes.string,
-        count: PropTypes.number,
-        cardTitle: PropTypes.string,
+        type: PropTypes.string.isRequired,
+        count: PropTypes.number.isRequired,
+        cardTitle: PropTypes.string.isRequired,
         cardWidth: PropTypes.string,
         imgWidth: PropTypes.string,
     }
     static defaultProps = {
-        type: 'top',
-        count: 10,
-        cardTitle: '头条',
         cardWidth: '100%',
-        imgWidth: '120px',
+        imgWidth: '125px',
     }
 
     state = {
@@ -27,24 +24,30 @@ export default class ImageList extends Component {
     }
 
     componentWillMount() {
+        this._isMounted = true;
         this.updateImage(this.props.type, this.props.count)
     }
 
-    shouldComponentUpdate(nextProps) {
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    componentWillReceiveProps(nextProps) {
         if (nextProps.type) {
             if (nextProps.type !== this.props.type) {
                 this.updateImage(nextProps.type, nextProps.count)
             }
         }
-        return true;
     }
-
     updateImage = (type, count) => {
+
         fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=${type}&count=${count}`, { method: 'GET' })
-            .then(response => response.json())
-            .then(response => {
-                this.setState({ imageList: response })
-            })
+            .then(res => res.json())
+            .then(res => {
+                if (this._isMounted) {
+                    this.setState({ imageList: res })
+                }
+            }).catch(e => message.error('请求出错了'))
     }
     render() {
         const { imageList } = this.state;

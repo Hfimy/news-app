@@ -15,13 +15,18 @@ class Comment extends Component {
         commentList: [],
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        this._isMounted = true;
         if (this.props.uniquekey !== undefined) {
             this.updateComment(this.props.uniquekey);
         }
     }
 
-    shouldComponentUpdate(nextProps) {
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    componentWillReceiveProps(nextProps) {
         if (nextProps.uniquekey && nextProps.uniquekey !== this.props.uniquekey) {
             this.updateComment(nextProps.uniquekey);
         }
@@ -30,7 +35,11 @@ class Comment extends Component {
     updateComment = (key) => {
         fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getcomments&uniquekey=${key}`, { method: 'GET' })
             .then(res => res.json())
-            .then(res => this.setState({ commentList: res }))
+            .then(res => {
+                if (this._isMounted) {
+                    this.setState({ commentList: res })
+                }
+            }).catch(e => message.error('请求出错了'))
     }
 
     handleSubmit = (e) => {
@@ -45,10 +54,12 @@ class Comment extends Component {
                 fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=comment&userId=${sessionStorage.UserId}&uniquekey=${this.props.uniquekey}&commnet=${comment}`, { method: 'GET' })
                     .then(res => res.json())
                     .then(res => {
-                        if (res === true) {
-                            this.updateComment(this.props.uniquekey)
+                        if (res !== true) {
+                            notification['error']({ message: 'React News', description: '评论失败！' })
+                            return;
                         }
-                    })
+                        this.updateComment(this.props.uniquekey)
+                    }).catch(e => message.error('请求出错了'))
 
                 this.props.form.resetFields();
             }
@@ -62,13 +73,14 @@ class Comment extends Component {
         fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=uc&userId=${sessionStorage.UserId}&uniquekey=${this.props.uniquekey}`, { method: 'GET' })
             .then(res => res.json())
             .then(res => {
-                if (res === true) {
-                    notification['success']({ message: 'React News', description: '收藏成功！' })
+                if (res !== true) {
+                    notification['error']({ message: 'React News', description: '收藏失败！' })
                     return;
                 }
-                notification['error']({ message: 'React News', description: '收藏失败！' })
-            })
+                notification['success']({ message: 'React News', description: '收藏成功！' })
+            }).catch(e => message.error('请求出错了'))
     }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const { commentList } = this.state;
@@ -78,7 +90,7 @@ class Comment extends Component {
                     <p>{item.Comments}</p>
                 </Card>
             ))
-            : '该新闻还没有任何评论哦~';
+            : '评论正在努力加载中~';
         return (
             <div>
                 {comments}
