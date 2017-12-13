@@ -61,7 +61,7 @@ export default class UserCenter extends PureComponent {
         return (
             <Row>
                 <Col span={6} />
-                <Col span={16}>
+                <Col span={14}>
                     <Tabs>
                         <TabPane key='1' tab='我的评论列表'>
                             {commentList}
@@ -71,7 +71,7 @@ export default class UserCenter extends PureComponent {
                         </TabPane>
                     </Tabs>
                 </Col>
-                <Col span={2} />
+                <Col span={4} />
             </Row>
         )
     }

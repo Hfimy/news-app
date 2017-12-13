@@ -14,12 +14,12 @@ export default class Container extends PureComponent {
     render() {
         return (
             <Row class='container'>
-                <Col span={2} />
-                <Col span={20}>
+                <Col span={3} />
+                <Col span={18}>
                     <div class='container-content'>
                         <div class='news-list-wrapper'>
                             <div class='news-list clearfix'>
-                                <Tabs>
+                                <Tabs class='news-list-tab'>
                                     <TabPane tab='头条' key='1'>
                                         <NewsList />
                                     </TabPane>
@@ -45,11 +45,11 @@ export default class Container extends PureComponent {
                         </div>
                     </div>
                     <div class='clearfix'>
-                        <ImageList type='caijing' count={10} cardTitle='财经新闻' />
-                        <ImageList type='yule' count={20} cardTitle='娱乐新闻' />
+                        <ImageList type='caijing' count={9} cardTitle='财经新闻' />
+                        <ImageList type='yule' count={18} cardTitle='娱乐新闻' />
                     </div>
                 </Col>
-                <Col span={2} />
+                <Col span={3} />
             </Row>
         )
     }

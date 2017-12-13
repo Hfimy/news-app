@@ -84,14 +84,14 @@ export default class Detail extends PureComponent {
         return (
             <Row>
                 <Col span={6} />
-                <Col span={10}>
+                <Col span={9}>
                     <div class='news-detail' dangerouslySetInnerHTML={{ __html: newsItem.pagecontent ? newsItem.pagecontent : '正在加载中...' }}></div>
                     <Comment uniquekey={newsItem.uniquekey} />
                 </Col>
                 <Col span={6} offset={1}>
                     <ImageList cardTitle='相关新闻' count={30} type={type} cardWidth='80%' imgWidth='130px'  />
                 </Col>
-                <Col span={2} />
+                <Col span={3} />
             </Row>
         )
     }

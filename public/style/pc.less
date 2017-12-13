@@ -1,3 +1,6 @@
+    header{
+        margin-bottom:10px;
+    }
     footer {
         text-align: center;
         margin: 15px;
@@ -78,10 +81,15 @@
                 float: left;
                 width: 100%;
                 .news-list {
-                    margin: 0 360px 0 480px;
+                    margin: 0 370px 0 490px;
                     padding-top: 10px;
                     .ant-tabs-bar {
                         margin-bottom: -1px;
+                        text-indent: 20px;
+                        .ant-tabs-tab {
+                            // text-align: left;
+                            padding: 12px 16px 12px 0;
+                        }
                     }
                     .ant-tabs-nav-wrap {
                         border: solid 1px #eee;
@@ -127,7 +135,7 @@
                     height: 650px;
                     h2 {
                         height: 50px;
-                        background: url('../static/image/p6.jpg') no-repeat 10px 10px #e70012;
+                        background: url('../static/image/p6.jpg') no-repeat 10px 10px #999;
                         width: 100%;
                         font-family: 'Microsoft YaHei';
                         font-size: 24px;
@@ -147,9 +155,12 @@
                             font-family: 'SimSun';
                             font-size: 14px;
                             padding: 0px 0 10px 0;
-                            height: 25px;
-                            line-height: 25px;
+                            height: 26px;
+                            line-height: 26px;
                             overflow: hidden;
+                            a {
+                                color: #333;
+                            }
                             .xian {
                                 margin: 0 5px;
                                 color: #ccc;
@@ -162,6 +173,7 @@
                         line-height: 200%;
                         text-align: left;
                         a {
+                            color: #333;
                             font-size: 12px;
                         }
                         img {

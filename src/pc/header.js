@@ -124,14 +124,14 @@ class Header extends PureComponent {
         return (
             <header>
                 <Row>
-                    <Col span={2}></Col>
-                    <Col span={4} class='logo'>
+                    <Col span={3}></Col>
+                    <Col span={3} class='logo'>
                         <Link to='/'>
                             <img src='./static/image/logo.png' />
                             <span>新闻首页</span>
                         </Link>
                     </Col>
-                    <Col span={16}>
+                    <Col span={15}>
                         <Menu defaultSelectedKeys={['home']} selectedKeys={[this.state.current]} onClick={this.handleClick} mode="horizontal">
                             <Menu.Item key='home'><Link to='/'><Icon type='home' />首页</Link></Menu.Item>
                             <Menu.Item key='entertainment'><Icon type='appstore' />娱乐</Menu.Item>
@@ -201,7 +201,7 @@ class Header extends PureComponent {
                             </Form>
                         </Modal>
                     </Col>
-                    <Col span={2}></Col>
+                    <Col span={3}></Col>
                 </Row>
             </header>
         )
