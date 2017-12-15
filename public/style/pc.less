@@ -213,29 +213,44 @@
         text-align: left;
     }
 
-    .avatar-container {
-        vertical-align: middle;
-        display: inline-block;
-        width: 80px;
-        height: 80px;
-        border-radius: 40px;
-        i {
-            line-height: 80px;
+    .userpic-container {
+        .avatar-container {
+            vertical-align: middle;
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            margin: 12px 52px 12px 12px;
+            i {
+                line-height: 80px;
+            }
         }
-    }
-
-    .upload-container {
-        padding-left: 40px;
-        vertical-align: middle;
-        display: inline-block;
-    }
-
-    .ant-upload-select-picture-card {
-        margin: 0!important;
-    }
-
-    .upload-modal {
-        img {
-            width: 100%;
+        .upload-pic {
+            margin: 20px auto;
+            display: block;
+        }
+        .ant-upload-list-picture-card {
+            .ant-upload-list-item-done,
+            .ant-upload-list-item-uploading {
+                margin: 0 40px 0 0;
+            }
+        }
+        .ant-upload-select-picture-card {
+            margin: 0;
+            display: inline-block;
+            .ant-upload {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0px;
+                .upload-btn {
+                    padding: 0px;
+                }
+            }
+        }
+        .upload-modal {
+            img {
+                width: 100%;
+            }
         }
     }

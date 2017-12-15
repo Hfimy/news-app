@@ -208,11 +208,10 @@ export default class UserCenter extends PureComponent {
                         <TabPane key='2' tab='我的收藏列表'>
                             {collectionList}
                         </TabPane>
-                        <TabPane key='3' tab='我的个人资料'>
+                        <TabPane class='userpic-container' key='3' tab='我的个人资料'>
                             <div>
                                 <Avatar class='avatar-container' size='large' icon='user' src={avatarUrl} />
                                 <Upload
-                                    class='upload-container'
                                     name='avatar'
                                     listType='picture-card'
                                     showUploadList={false}
@@ -225,10 +224,11 @@ export default class UserCenter extends PureComponent {
                             </div>
                             <div>
                                 <Upload
+                                    class='upload-pic'
                                     listType='picture-card'
                                     action='//jsonplaceholder.typicode.com/posts/'
                                     fileList={fileList}
-                                    beforeUpload={this.beforeUpload}
+                                    // beforeUpload={this.beforeUpload}
                                     onPreview={this.handlePreview}
                                     multiple={true}
                                     // customRequest={this.uploadPic}
