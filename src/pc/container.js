@@ -6,6 +6,7 @@ import ImageList from './imageList'
 import Product from './production'
 
 import { Row, Col, Carousel, Tabs } from 'antd'
+import { handleResponse } from '../common/util'
 
 const TabPane = Tabs.TabPane;
 
@@ -21,7 +22,7 @@ export default class Container extends PureComponent {
                             <div class='news-list clearfix'>
                                 <Tabs class='news-list-tab'>
                                     <TabPane tab='头条' key='1'>
-                                        <NewsList />
+                                        <NewsList type='top' count={22}/>
                                     </TabPane>
                                     <TabPane tab='国际' key='2'>
                                         <NewsList type='guoji' count={22} />

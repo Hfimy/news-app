@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { handleResponse } from './util'
+
 import { Form, Input, Button, Card, message, notification } from 'antd'
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -34,7 +36,7 @@ class Comment extends PureComponent {
     }
     updateComment = (key) => {
         fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getcomments&uniquekey=${key}`, { method: 'GET' })
-            .then(res => res.json())
+            .then(handleResponse)
             .then(res => {
                 if (this._isMounted) {
                     this.setState({ commentList: res })
@@ -52,7 +54,7 @@ class Comment extends PureComponent {
             if (!err) {
                 const comment = encodeURIComponent(values.comment);
                 fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=comment&userId=${sessionStorage.UserId}&uniquekey=${this.props.uniquekey}&commnet=${comment}`, { method: 'GET' })
-                    .then(res => res.json())
+                    .then(handleResponse)
                     .then(res => {
                         if (res !== true) {
                             notification['error']({ message: 'React News', description: '评论失败！' })
@@ -71,7 +73,7 @@ class Comment extends PureComponent {
             return;
         }
         fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=uc&userId=${sessionStorage.UserId}&uniquekey=${this.props.uniquekey}`, { method: 'GET' })
-            .then(res => res.json())
+            .then(handleResponse)
             .then(res => {
                 if (res !== true) {
                     notification['error']({ message: 'React News', description: '收藏失败！' })

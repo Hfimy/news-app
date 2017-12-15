@@ -7,20 +7,23 @@ export function handleResponse(res) {
         return handleContentTypeResponse(res)
     }
     // console.log('请求返回false')
-    return Promise.reject({ "status": res.status, "statusText": res.statusText })
+    return Promise.reject({ status: res.status, statusText: res.statusText })
 }
 
 function handleContentTypeResponse(res) {
-    const contentType = res.headers.get('content-type');
-    if (contentType.includes('application/json')) {
-        return Object.assign({}, res.json(), { status: res.status, statusText: res.statusText })
-    }
-    if (contentType.includes('text/html')) {
-        return Object.assign({}, res.text(), { status: res.status, statusText: res.statusText })
-    }
-    if (contentType.includes('image')) {
-        return Object.assign({}, res.blob(), { status: res.status, statusText: res.statusText })
-    }
+    // const contentType = res.headers.get('content-type');
+    // console.log(contentType)
+    // if (contentType.includes('application/json')) {
+    //     // return handleJSONResponse(res)
+    //     return res.json();
+    // }
+    // if (contentType.includes('text/')) {
+    //     // return Object.assign({}, res.text(), { status: res.status, statusText: res.statusText })
+    //     return res.text();
+    // }
+    // if (contentType.includes('image')) {
+    //     return Object.assign({}, res.blob(), { status: res.status, statusText: res.statusText })
+    // }
     // others type
-    return res;
+    return res.json();
 }

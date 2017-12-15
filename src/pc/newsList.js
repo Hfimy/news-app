@@ -2,16 +2,16 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import { Card, message } from 'antd'
+import { handleResponse } from '../common/util'
 
 export default class NewsList extends PureComponent {
 
     static propTypes = {
-        type: PropTypes.string,
-        count: PropTypes.number,
+        type: PropTypes.string.isRequired,
+        count: PropTypes.number.isRequired
     }
     static defaultProps = {
-        type: 'top',
-        count: 20
+
     }
 
     state = {
@@ -21,7 +21,7 @@ export default class NewsList extends PureComponent {
     componentWillMount() {
         this._isMounted = true;
         fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=${this.props.type}&count=${this.props.count}`, { method: 'GET' })
-            .then(res => res.json())
+            .then(handleResponse)
             .then(res => {
                 if (this._isMounted) {
                     this.setState({ newsList: res })

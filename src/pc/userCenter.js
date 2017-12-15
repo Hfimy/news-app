@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import { handleResponse } from '../common/util'
@@ -8,7 +8,7 @@ const TabPane = Tabs.TabPane
 
 
 
-export default class UserCenter extends Component {
+export default class UserCenter extends PureComponent {
     static propTypes = {
 
     }
@@ -29,7 +29,7 @@ export default class UserCenter extends Component {
         this._isMounted = true;
         if (sessionStorage.hasLogined) {
             fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getusercomments&userId=${sessionStorage.UserId}`, { method: 'GET' })
-                .then(res => res.json())
+                .then(handleResponse)
                 .then(res => {
                     if (this._isMounted) {
                         this.setState({ comments: res })
@@ -37,7 +37,7 @@ export default class UserCenter extends Component {
                 }).catch(e => message.error('请求出错了'))
 
             fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getuc&userId=${sessionStorage.UserId}`, { method: 'GET' })
-                .then(res => res.json())
+                .then(handleResponse)
                 .then(res => {
                     if (this._isMounted) {
                         this.setState({ collections: res })
@@ -52,7 +52,6 @@ export default class UserCenter extends Component {
     }
 
     beforeUpload = (file) => {
-
         if (!/jpe?g|png$/.test(file.type)) {
             message.error('不支持的图片格式');
             file.flag = true;
@@ -77,6 +76,7 @@ export default class UserCenter extends Component {
         this.setState({ loading: true })
 
         fetch(obj.action, { method: 'POST', body: form })
+            // .then(handleResponse)
             .then(res => {
                 if (this._isMounted) {
                     if (res.status === 200 || res.status === 201) {
@@ -98,6 +98,7 @@ export default class UserCenter extends Component {
 
     handleCancel = () => this.setState({ previewVisible: false });
     handlePreview = (file) => {
+        console.log(file)
         this.setState({
             previewImage: file.url || file.thumbUrl,
             previewVisible: true,
@@ -110,29 +111,27 @@ export default class UserCenter extends Component {
         form.append('name', obj.filename)
         form.append('file', obj.file)
 
-        const file = obj.file, fileList = this.state.fileList;
-        const newFileList = fileList.slice()
+        const file = obj.file, fileList = this.state.fileList.slice();
         file.status = 'uploading';
-        newFileList.push(file)
+        fileList.push(file)
         if (this._isMounted) {
-            this.setState({ fileList: newFileList })
+            this.setState({ fileList })
         }
 
         fetch(obj.action, { method: 'POST', body: form })
-            .then(handleResponse)
+            // .then(handleResponse)
             .then(res => {
-                if (res.status === 200 || res.status === 201) {
-                    file.status = 'done'
-                    const fileList = this.state.fileList;
-                    const newFileList = fileList.slice()
-                    if (this._isMounted) {
-                        this.setState({ fileList: newFileList })
-                    }
-                } else {
-                    file.status = 'error'
-                    const fileList = this.state.fileList.slice();
-                    if (this._isMounted) {
+                if (this._isMounted) {
+                    if (res.status === 200 || res.status === 201) {
+                        file.status = 'done'
+                        const fileList = this.state.fileList.slice()
                         this.setState({ fileList })
+                    } else {
+                        file.status = 'error'
+                        const fileList = this.state.fileList.slice();
+                        if (this._isMounted) {
+                            this.setState({ fileList })
+                        }
                     }
                 }
             }).catch(error => {
@@ -142,14 +141,14 @@ export default class UserCenter extends Component {
                     message.error('请求失败！')
                 }
                 file.status = 'error'
-                const newFileList = this.state.fileList.filter((item, index) => {
+                const fileList = this.state.fileList.filter((item, index) => {
                     if (item.status === 'error') {
                         return false;
                     }
                     return true;
                 })
                 if (this._isMounted) {
-                    this.setState({ fileList: newFileList })
+                    this.setState({ fileList })
                 }
             })
     }
@@ -167,6 +166,7 @@ export default class UserCenter extends Component {
             this.setState({ fileList: newFileList })
         }
     }
+
     render() {
         const { comments, collections, avatarUrl, loading, previewVisible, previewImage, fileList } = this.state;
         const commentList = comments.length
@@ -184,7 +184,7 @@ export default class UserCenter extends Component {
                 </Card>
             ))
             : '您还没有收藏任何的新闻，快去收藏吧~'
-        const uploadButton = (
+        const uploadAvaButton = (
             <div class='upload-btn'>
                 <Icon type={loading ? 'loading' : 'plus'} />
                 <div>上传头像</div>
@@ -220,7 +220,7 @@ export default class UserCenter extends Component {
                                     beforeUpload={this.beforeUpload}
                                     customRequest={this.uploadAvatar}
                                 >
-                                    {uploadButton}
+                                    {uploadAvaButton}
                                 </Upload>
                             </div>
                             <div>

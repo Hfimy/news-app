@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import { Card, message } from 'antd'
+import { handleResponse } from '../common/util'
 
 import '../../public//style/pc_imageList.less'
 
@@ -42,7 +43,7 @@ export default class ImageList extends PureComponent {
     updateImage = (type, count) => {
 
         fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=${type}&count=${count}`, { method: 'GET' })
-            .then(res => res.json())
+            .then(handleResponse)
             .then(res => {
                 if (this._isMounted) {
                     this.setState({ imageList: res })

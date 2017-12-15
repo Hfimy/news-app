@@ -5,6 +5,7 @@ import ImageList from './imageList'
 import Comment from '../common/comment'
 
 import { Row, Col, message } from 'antd'
+import { handleResponse } from '../common/util'
 
 export default class Detail extends PureComponent {
 
@@ -39,7 +40,7 @@ export default class Detail extends PureComponent {
 
     updateDetail = (key) => {
         fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getnewsitem&uniquekey=${key}`, { method: 'GET' })
-            .then(res => res.json())
+            .then(handleResponse)
             .then(res => {
                 if (this._isMounted) {
                     this.setState({ newsItem: res }, () => {
@@ -78,7 +79,7 @@ export default class Detail extends PureComponent {
                 type = 'shishang';
                 break;
             default:
-                type = 'top'
+                type = undefined;
                 break;
         }
         return (
@@ -89,7 +90,7 @@ export default class Detail extends PureComponent {
                     <Comment uniquekey={newsItem.uniquekey} />
                 </Col>
                 <Col span={6} offset={1}>
-                    <ImageList cardTitle='相关新闻' count={30} type={type} cardWidth='80%' imgWidth='130px'  />
+                    {type ? <ImageList cardTitle='相关新闻' count={30} type={type} cardWidth='80%' imgWidth='130px' /> : '正在加载中'}
                 </Col>
                 <Col span={3} />
             </Row>

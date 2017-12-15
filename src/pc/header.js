@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import { Row, Col, Menu, Icon, Modal, Button, Tabs, Form, Input, message } from 'antd'
+import { handleResponse } from '../common/util'
 
 const TabPane = Tabs.TabPane, FormItem = Form.Item;
 
@@ -45,7 +46,7 @@ class Header extends PureComponent {
                 username = encodeURIComponent(username), password = encodeURIComponent(password);
 
                 fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=login&username=${username}&password=${password}`)
-                    .then(res => res.json())
+                    .then(handleResponse)
                     .then(res => {
                         if (res === null) {
                             message('用户名或密码错误');
@@ -86,7 +87,7 @@ class Header extends PureComponent {
                 let { re_username: username, re_password: password } = values;
                 username = encodeURIComponent(username), password = encodeURIComponent(password);
                 fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=register&r_userName=${username}&r_password=${password}&r_confirmPassword=${password}`)
-                    .then(res => res.json())
+                    .then(handleResponse)
                     .then(res => {
                         if (res !== true) {
                             message('注册失败')
