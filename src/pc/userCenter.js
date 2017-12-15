@@ -22,7 +22,11 @@ export default class UserCenter extends PureComponent {
         loading: false,
         previewVisible: false,
         previewImage: '',
-        fileList: [],
+        fileList: [{
+            uid: -1,
+            status: 'done',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        }],
     }
 
     componentWillMount() {
@@ -201,14 +205,8 @@ export default class UserCenter extends PureComponent {
             <Row>
                 <Col span={6} />
                 <Col span={14}>
-                    <Tabs>
-                        <TabPane key='1' tab='我的评论列表'>
-                            {commentList}
-                        </TabPane>
-                        <TabPane key='2' tab='我的收藏列表'>
-                            {collectionList}
-                        </TabPane>
-                        <TabPane class='userpic-container' key='3' tab='我的个人资料'>
+                    <Tabs defaultActiveKey='1'>
+                        <TabPane class='userpic-container' key='1' tab='我的个人资料'>
                             <div>
                                 <Avatar class='avatar-container' size='large' icon='user' src={avatarUrl} />
                                 <Upload
@@ -241,6 +239,13 @@ export default class UserCenter extends PureComponent {
                                 </Modal>
                             </div>
                         </TabPane>
+                        <TabPane key='2' tab='我的评论列表'>
+                            {commentList}
+                        </TabPane>
+                        <TabPane key='3' tab='我的收藏列表'>
+                            {collectionList}
+                        </TabPane>
+
                     </Tabs>
                 </Col>
                 <Col span={4} />

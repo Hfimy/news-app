@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
-import { Row, Col, Menu, Icon, Modal, Button, Tabs, Form, Input, message } from 'antd'
+import { Row, Col, Menu, Icon, Modal, Button, Tabs, Form, Input, message, Avatar, Tooltip } from 'antd'
 import { handleResponse } from '../common/util'
 
 const TabPane = Tabs.TabPane, FormItem = Form.Item;
@@ -106,9 +106,15 @@ class Header extends PureComponent {
         const { showLoginModal, showRegistryModal } = this.state;
         const { getFieldDecorator } = this.props.form;
         const userCenter = sessionStorage.getItem('hasLogined')
-            ? <Menu.Item key='userCenter' className='fr'>
-                <Button type='primary' title={sessionStorage.getItem('UserNickname')}><span class='username-btn'>{sessionStorage.getItem('UserNickname')}</span></Button>
-                <Button type='dashed'><Link to='/usercenter'>个人中心</Link></Button>
+            ? <Menu.Item key='userCenter' className='fr header-usercenter'>
+                {/* <Button type='primary' title={sessionStorage.getItem('UserNickname')}>
+                    <span class='username-btn'>欢迎登录，{sessionStorage.getItem('UserNickname')}</span>
+                </Button> */}
+                <Tooltip placement='bottomRight' title={`欢迎您，${sessionStorage.getItem('UserNickname')}`}>
+                    <Avatar class='user-avatar' icon='user' />
+                </Tooltip>
+
+                <Button type='primary'><Link to='/usercenter'>个人中心</Link></Button>
                 <Button type='default' onClick={this.handleLogout}><Link to='/'>退出</Link></Button>
             </Menu.Item>
             : <Menu.Item key='login' className='fr'><Icon type='appstore' />注册/登录
