@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import { handleResponse } from '../common/util'
+
 import { Row, Col, Tabs, Card, message, Avatar, Upload, Icon, Modal } from 'antd'
 const TabPane = Tabs.TabPane
+
+
 
 export default class UserCenter extends Component {
     static propTypes = {
@@ -40,6 +44,7 @@ export default class UserCenter extends Component {
                     }
                 }).catch(e => message.error('请求出错了'))
         }
+
     }
 
     componentWillUnmount() {
@@ -47,19 +52,18 @@ export default class UserCenter extends Component {
     }
 
     beforeUpload = (file) => {
-        
+
         if (!/jpe?g|png$/.test(file.type)) {
             message.error('不支持的图片格式');
-            file.flag=true;
+            file.flag = true;
             return false;
         }
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
             message.error('图片大小超过限制(2M)');
-            file.flag=true;
+            file.flag = true;
             return false;
         }
-        console.log('true')
         return true;
     }
 
@@ -101,62 +105,56 @@ export default class UserCenter extends Component {
     }
 
     //自定义实现onChange事件效果
-    // uploadPic = (obj) => {
-    //     const form = new FormData();
-    //     form.append('name', obj.filename)
-    //     form.append('file', obj.file)
+    uploadPic = (obj) => {
+        const form = new FormData();
+        form.append('name', obj.filename)
+        form.append('file', obj.file)
 
-    //     const file = obj.file, fileList = this.state.fileList;
-    //     const newFileList = fileList.slice()
-    //     file.status = 'uploading';
-    //     newFileList.push(file)
-    //     if (this._isMounted) {
-    //         this.setState({ fileList: newFileList })
-    //     }
+        const file = obj.file, fileList = this.state.fileList;
+        const newFileList = fileList.slice()
+        file.status = 'uploading';
+        newFileList.push(file)
+        if (this._isMounted) {
+            this.setState({ fileList: newFileList })
+        }
 
-    //     fetch(obj.action, { method: 'POST', body: form })
-    //         .then(res => {
-    //             if (res.status === 200 || res.status === 201) {
-    //                 file.status = 'done'
-    //                 //file.thrumbUrl='';
-    //                 const fileList = this.state.fileList;
-    //                 const newFileList = fileList.slice()
-    //                 if (this._isMounted) {
-    //                     this.setState({ fileList: newFileList })
-    //                 }
-    //             } else {
-    //                 file.status = 'error'
-    //                 //file.thrmbUrl='';
-    //                 const fileList = this.state.fileList;
-    //                 const newFileList = fileList.filter((item, index) => {
-    //                     if (item.status === 'error') {
-    //                         return false;
-    //                     }
-    //                     return true;
-    //                 })
-    //                 if (this._isMounted) {
-    //                     this.setState({ fileList: newFileList })
-    //                 }
-    //             }
-    //         }).catch(e => {
-    //             file.status = 'error'
-    //             //file.thrmbUrl='';
-    //             const fileList = this.state.fileList;
-    //             const newFileList = fileList.slice()
-                
-    //             // const newFileList = fileList.filter((item, index) => {
-    //             //     if (item.status === 'error') {
-    //             //         return false;
-    //             //     }
-    //             //     return true;
-    //             // })
-    //             if (this._isMounted) {
-    //                 this.setState({ fileList: newFileList })
-    //             }
-    //         })
-    // }
-    handleChange = ({ fileList,file }) => {
-        if(file.flag){
+        fetch(obj.action, { method: 'POST', body: form })
+            .then(handleResponse)
+            .then(res => {
+                if (res.status === 200 || res.status === 201) {
+                    file.status = 'done'
+                    const fileList = this.state.fileList;
+                    const newFileList = fileList.slice()
+                    if (this._isMounted) {
+                        this.setState({ fileList: newFileList })
+                    }
+                } else {
+                    file.status = 'error'
+                    const fileList = this.state.fileList.slice();
+                    if (this._isMounted) {
+                        this.setState({ fileList })
+                    }
+                }
+            }).catch(error => {
+                if (error.status) {
+                    message.error(error.statusText.toString());
+                } else {
+                    message.error('请求失败！')
+                }
+                file.status = 'error'
+                const newFileList = this.state.fileList.filter((item, index) => {
+                    if (item.status === 'error') {
+                        return false;
+                    }
+                    return true;
+                })
+                if (this._isMounted) {
+                    this.setState({ fileList: newFileList })
+                }
+            })
+    }
+    handleChange = ({ fileList, file }) => {
+        if (file.flag) {
             return;
         }
         const newFileList = fileList.filter((item, index) => {
