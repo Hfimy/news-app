@@ -1,9 +1,16 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
+import InfiniteScroll from 'react-infinite-scroller';
+
+import { Link } from 'react-router'
+
 import { handleResponse } from '../common/util'
 
-import { Row, Col, Tabs, Card, message, Avatar, Upload, Icon, Modal } from 'antd'
+//添加发布订阅库，实现跨组件间通信
+import PubSub from 'pubsub-js'
+
+import { Row, Col, Tabs, Card, message, Avatar, Upload, Icon, Modal, List, Spin, Button } from 'antd'
 const TabPane = Tabs.TabPane
 
 
@@ -27,8 +34,12 @@ export default class UserCenter extends PureComponent {
             status: 'done',
             url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         }],
-    }
+        Loading: true,
+        loadingMore: false,
 
+        commentLoading: false,
+        hasMore: true,
+    }
     componentWillMount() {
         this._isMounted = true;
         if (sessionStorage.hasLogined) {
@@ -44,7 +55,7 @@ export default class UserCenter extends PureComponent {
                 .then(handleResponse)
                 .then(res => {
                     if (this._isMounted) {
-                        this.setState({ collections: res })
+                        this.setState({ collections: res, Loading: false })
                     }
                 }).catch(e => message.error('请求出错了'))
         }
@@ -53,6 +64,9 @@ export default class UserCenter extends PureComponent {
 
     componentWillUnmount() {
         this._isMounted = false;
+        if (this.state.avatarUrl) {
+            URL.revokeObjectURL(this.state.avatarUrl)
+        }
     }
 
     beforeUpload = (file) => {
@@ -76,7 +90,7 @@ export default class UserCenter extends PureComponent {
         form.append('name', obj.filename)
         form.append('file', obj.file)
 
-        const avatarUrl = URL.createObjectURL(obj.file);
+
         this.setState({ loading: true })
 
         fetch(obj.action, { method: 'POST', body: form })
@@ -85,7 +99,12 @@ export default class UserCenter extends PureComponent {
                 if (this._isMounted) {
                     if (res.status === 200 || res.status === 201) {
                         message.success('上传成功！')
+                        if (this.state.avatarUrl) {
+                            URL.revokeObjectURL(this.state.avatarUrl)
+                        }
+                        const avatarUrl = URL.createObjectURL(obj.file);
                         this.setState({ avatarUrl })
+                        PubSub.publish('CHANGE_AVATAR', avatarUrl)
                     } else {
                         message.error('上传失败')
                     }
@@ -102,7 +121,6 @@ export default class UserCenter extends PureComponent {
 
     handleCancel = () => this.setState({ previewVisible: false });
     handlePreview = (file) => {
-        console.log(file)
         this.setState({
             previewImage: file.url || file.thumbUrl,
             previewVisible: true,
@@ -170,24 +188,54 @@ export default class UserCenter extends PureComponent {
             this.setState({ fileList: newFileList })
         }
     }
+    onLoadMore = () => {
+        this.setState({ loadingMore: true })
+        fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getuc&userId=${sessionStorage.UserId}`, { method: 'GET' })
+            .then(handleResponse)
+            .then(res => {
+                if (this._isMounted) {
+                    this.setState({ collections: res, loadingMore: false }, () => {
+                        window.dispatchEvent(new Event('resize'))
+                    })
+                }
+            }).catch(e => message.error('请求出错了'))
 
+    }
+    handleInfiniteOnLoad = () => {
+        const comments = this.state.comments;
+        this.setState({ commentLoading: true })
+
+        if (comments > 30) {
+            message.warnint('Infinite List loaded all')
+            if (this._isMounted) {
+                this.setState({
+                    commentLoading: false,
+                    hasMore: false
+                })
+            }
+            return;
+        }
+        fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=getuc&userId=${sessionStorage.UserId}`, { method: 'GET' })
+            .then(handleResponse)
+            .then(res => {
+                if (this._isMounted) {
+                    this.setState({ collections: res, commentLoading: false })
+                }
+            }).catch(e => {
+                message.error('请求出错了')
+                this.setState({commentLoading:false})
+            })
+    }
     render() {
-        const { comments, collections, avatarUrl, loading, previewVisible, previewImage, fileList } = this.state;
-        const commentList = comments.length
-            ? comments.map((item, index) => (
-                <Card key={index}>
-                    {item.Comments}
-                </Card>
-            ))
-            : '您还没有发表过任何评论~'
+        const { comments, collections, avatarUrl, loading, previewVisible, previewImage, fileList, Loading, loadingMore } = this.state;
+        const loadMore =
+            <div style={{ textAlign: 'center', marginTop: 8, marginBottom: 8, height: 32, lineHeight: '32px' }}>
+                {loadingMore && <Spin />}
+                {!loadingMore && <Button onClick={this.onLoadMore}>loading more</Button>}
+            </div>
 
-        const collectionList = collections.length
-            ? collections.map((item, index) => (
-                <Card key={index}>
-                    {item.Title}
-                </Card>
-            ))
-            : '您还没有收藏任何的新闻，快去收藏吧~'
+
+
         const uploadAvaButton = (
             <div class='upload-btn'>
                 <Icon type={loading ? 'loading' : 'plus'} />
@@ -204,11 +252,11 @@ export default class UserCenter extends PureComponent {
 
             <Row>
                 <Col span={6} />
-                <Col span={14}>
+                <Col span={12}>
                     <Tabs defaultActiveKey='1'>
                         <TabPane class='userpic-container' key='1' tab='我的个人资料'>
                             <div>
-                                <Avatar class='avatar-container' size='large' icon='user' src={avatarUrl} />
+                                <a id='avatar' href='#'><Avatar class='avatar-container' size='large' icon='user' src={avatarUrl} /></a>
                                 <Upload
                                     name='avatar'
                                     listType='picture-card'
@@ -226,7 +274,7 @@ export default class UserCenter extends PureComponent {
                                     listType='picture-card'
                                     action='//jsonplaceholder.typicode.com/posts/'
                                     fileList={fileList}
-                                    // beforeUpload={this.beforeUpload}
+                                    beforeUpload={this.beforeUpload}
                                     onPreview={this.handlePreview}
                                     multiple={true}
                                     // customRequest={this.uploadPic}
@@ -239,16 +287,49 @@ export default class UserCenter extends PureComponent {
                                 </Modal>
                             </div>
                         </TabPane>
-                        <TabPane key='2' tab='我的评论列表'>
-                            {commentList}
+                        
+                        <TabPane class='demo-infinite-container' key='2' tab='我的评论列表'>
+                            <InfiniteScroll
+                                initialLoad={false}
+                                pageStart={0}
+                                loadMore={this.handleInfiniteOnLoad}
+                                hasMore={!this.state.commentLoading && this.state.hasMore}
+                                useWindow={false}
+                            >
+                                <List
+                                    size='large'
+                                    dataSource={comments}
+                                    renderItem={item => (
+                                        <List.Item>
+                                            <List.Item.Meta
+                                                title={`您于 ${item.datetime} 评论了文章 ${item.uniquekey} `}
+                                                description={item.Comments}
+                                            />
+                                            <Link to={`/detail/${item.uniquekey}`} target='_blank'>查看</Link>
+                                        </List.Item>
+                                    )}>
+                                    {this.state.commentLoading && this.state.hasMore && <Spin class='demo-loading' />}
+                                </List>
+                            </InfiniteScroll>
                         </TabPane>
                         <TabPane key='3' tab='我的收藏列表'>
-                            {collectionList}
+                            <List
+                                size='large'
+                                loading={Loading}
+                                loadMore={loadMore}
+                                dataSource={collections}
+                                renderItem={item => (
+                                    <List.Item>
+                                        <List.Item.Meta
+                                            title={item.Title}
+                                        />
+                                        <Link to={`/detail/${item.uniquekey}`} target='_blank'>查看</Link>
+                                    </List.Item>
+                                )} />
                         </TabPane>
-
                     </Tabs>
                 </Col>
-                <Col span={4} />
+                <Col span={6} />
             </Row>
         )
     }

@@ -9,11 +9,11 @@ import UserCenter from './userCenter'
 import '../../public/style/pc.less'
 
 export default () => (
-    <Router history={hashHistory}>
+    <Router history={browserHistory}>
         <Route path='/' component={App}>
-            <IndexRoute component={Container}/>
+            <IndexRoute ignoreScrollBehavior={true} component={Container}/>
             <Route path='detail/:uniquekey' component={Detail}/>
-            <Route path='/usercenter' component={UserCenter}/>
+            <Route ignoreScrollBehavior={true} path='/usercenter' component={UserCenter}/>
         </Route>
     </Router>
 )

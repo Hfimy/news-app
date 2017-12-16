@@ -49,6 +49,7 @@ export default class Container extends PureComponent {
                         <ImageList type='caijing' count={9} cardTitle='财经新闻' />
                         <ImageList type='yule' count={18} cardTitle='娱乐新闻' />
                     </div>
+                    {/* <a id='avatar'><h1>锚点在这里</h1></a> */}
                 </Col>
                 <Col span={3} />
             </Row>

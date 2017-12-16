@@ -1,268 +1,303 @@
-    header {
+header {
+    margin-bottom: 10px;
+}
+
+footer {
+    text-align: center;
+    margin: 15px;
+}
+
+.logo {
+    span {
+        padding-left: 10px;
+        font-size: 16px;
+        vertical-align: middle;
+        color: #2db7f5;
+    }
+    img {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+.fr {
+    float: right!important;
+}
+
+.ant-modal {
+    max-width: 400px;
+}
+
+.ant-modal-title {
+    text-align: center;
+}
+
+.ant-modal-close-x {
+    font-size: 22px;
+}
+
+.ant-btn {
+    height: 36px;
+    padding: 0 30px;
+    margin-left: 20px!important;
+}
+
+@media (max-width:768px) {
+    .ant-modal {
+        margin: 0 auto;
+    }
+}
+
+.header-usercenter {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+        border-bottom-color: transparent!important;
+    }
+    .user-avatar {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        border-radius: 18px;
+    }
+    .ant-avatar {
+        i {
+            margin: 0;
+            line-height: 36px;
+        }
+    }
+    .avatar-link {
+        height: 36px;
+    }
+}
+
+.prompt-registry {
+    display: inline-block;
+    font-style: italic;
+    text-indent: 10px;
+}
+
+.footer-btn {
+    padding-right: 14px;
+    margin-bottom: 0px;
+    text-align: right;
+}
+
+.container {
+    padding-top: 10px;
+    .container-content {
+        //此处使用flex布局有一个bug未解决：第一次切换tab时宽度发生变化
+        // display: flex;
+        // flex-flow: row;
+        clear: both;
+        overflow: hidden;
+        .news-list-wrapper {
+            float: left;
+            width: 100%;
+            .news-list {
+                margin: 0 370px 0 490px;
+                padding-top: 10px;
+                .ant-tabs-bar {
+                    margin-bottom: -1px;
+                    text-indent: 20px;
+                    .ant-tabs-tab {
+                        // text-align: left;
+                        padding: 12px 16px 12px 0;
+                    }
+                }
+                .ant-tabs-nav-wrap {
+                    border: solid 1px #eee;
+                }
+                ul {
+                    list-style: none;
+                    li {
+                        height: 27px;
+                        line-height: 27px;
+                        font-size: 14px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        a {
+                            color: #666;
+                        }
+                    }
+                }
+            }
+        }
+        .left {
+            width: 440px;
+            float: left;
+            margin-left: -100%;
+            padding-top: 10px;
+            .carousel {
+                width: 440px;
+                height: 230px;
+                img {
+                    width: 440px;
+                    height: 218px
+                }
+            }
+        }
+        .right {
+            width: 320px;
+            float: left;
+            margin-left: -320px;
+            padding-top: 10px;
+            .cpc {
+                width: 320px;
+                border: 1px solid #f5f5f5;
+                height: 650px;
+                h2 {
+                    height: 50px;
+                    background: url('../static/image/p6.jpg') no-repeat 10px 10px #999;
+                    width: 100%;
+                    font-family: 'Microsoft YaHei';
+                    font-size: 24px;
+                    font-weight: normal;
+                    line-height: 50px;
+                    text-indent: 2em;
+                    a {
+                        color: #fff;
+                    }
+                }
+                .list14 {
+                    width: 90%;
+                    margin: 15px auto 0 auto;
+                    list-style: none;
+                    li {
+                        display: inline-block;
+                        font-family: 'SimSun';
+                        font-size: 14px;
+                        padding: 0px 0 10px 0;
+                        height: 26px;
+                        line-height: 26px;
+                        overflow: hidden;
+                        a {
+                            color: #333;
+                        }
+                        .xian {
+                            margin: 0 5px;
+                            color: #ccc;
+                        }
+                    }
+                }
+                .cpc_zt {
+                    width: 90%;
+                    margin: 0 auto;
+                    line-height: 200%;
+                    text-align: left;
+                    a {
+                        color: #333;
+                        font-size: 12px;
+                    }
+                    img {
+                        float: left;
+                        margin-right: 15px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.news-detail {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.empty-news {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.comment-card {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.comment-form {
+    padding-top: 10px;
+    .ant-form-item-label {
         margin-bottom: 10px;
     }
+}
 
-    footer {
-        text-align: center;
-        margin: 15px;
-    }
+.comment-btn {
+    text-align: left;
+}
 
-    .logo {
-        span {
-            padding-left: 10px;
-            font-size: 16px;
-            vertical-align: middle;
-            color: #2db7f5;
-        }
-        img {
-            width: 48px;
-            height: 48px;
-        }
-    }
-
-    .fr {
-        float: right!important;
-    }
-
-    .ant-modal {
-        max-width: 400px;
-    }
-
-    .ant-modal-title {
-        text-align: center;
-    }
-
-    .ant-modal-close-x {
-        font-size: 22px;
-    }
-
-    .ant-btn {
-        height: 36px;
-        padding: 0 30px;
-        margin-left: 20px!important;
-    }
-
-    @media (max-width:768px) {
-        .ant-modal {
-            margin: 0 auto;
+.userpic-container {
+    padding-top: 20px;
+    .avatar-container {
+        vertical-align: middle;
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        border-radius: 40px;
+        margin: 12px 52px 12px 12px;
+        i {
+            line-height: 80px;
         }
     }
+    .upload-pic {
+        margin: 60px auto;
+        display: block;
+    }
+    .ant-upload-list-picture-card {
+        .ant-upload-list-item-done,
+        .ant-upload-list-item-uploading {
+            margin: 0 40px 0 0;
+        }
+    }
+    .ant-upload-select-picture-card {
+        margin: 0;
+        display: inline-block;
+        .ant-upload {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0px;
+            .upload-btn {
+                padding: 0px;
+            }
+        }
+    }
+}
 
-    .header-usercenter{
-        height:48px;
+.upload-modal {
+    .ant-modal-content {
+        width: 400px;
+        height: 400px;
         display: flex;
         align-items: center;
         justify-content: center;
-        .user-avatar {
-            display: inline-block;
-            width:36px;
-            height:36px;
-            border-radius:18px;
-        }
-        .ant-avatar{
-            i{
-                margin:0;
-                line-height:36px;
-            }
+        .ant-modal-body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
-
-
-
-    .prompt-registry {
-        display: inline-block;
-        font-style: italic;
-        text-indent: 10px;
+    img {
+        width: 95%;
+        height: 95%;
     }
+}
+.ant-list-item-meta-title{
+    // margin-bottom:10px;
+    padding-bottom:10px;
+}
 
-    .footer-btn {
-        padding-right: 14px;
-        margin-bottom: 0px;
-        text-align: right;
-    }
-
-    .container {
-        padding-top: 10px;
-        .container-content {
-            //此处使用flex布局有一个bug未解决：第一次切换tab时宽度发生变化
-            // display: flex;
-            // flex-flow: row;
-            clear: both;
-            overflow: hidden;
-            .news-list-wrapper {
-                float: left;
-                width: 100%;
-                .news-list {
-                    margin: 0 370px 0 490px;
-                    padding-top: 10px;
-                    .ant-tabs-bar {
-                        margin-bottom: -1px;
-                        text-indent: 20px;
-                        .ant-tabs-tab {
-                            // text-align: left;
-                            padding: 12px 16px 12px 0;
-                        }
-                    }
-                    .ant-tabs-nav-wrap {
-                        border: solid 1px #eee;
-                    }
-                    ul {
-                        list-style: none;
-                        li {
-                            height: 27px;
-                            line-height: 27px;
-                            font-size: 14px;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            a {
-                                color: #666;
-                            }
-                        }
-                    }
-                }
-            }
-            .left {
-                width: 440px;
-                float: left;
-                margin-left: -100%;
-                padding-top: 10px;
-                .carousel {
-                    width: 440px;
-                    height: 230px;
-                    img {
-                        width: 440px;
-                        height: 218px
-                    }
-                }
-            }
-            .right {
-                width: 320px;
-                float: left;
-                margin-left: -320px;
-                padding-top: 10px;
-                .cpc {
-                    width: 320px;
-                    border: 1px solid #f5f5f5;
-                    height: 650px;
-                    h2 {
-                        height: 50px;
-                        background: url('../static/image/p6.jpg') no-repeat 10px 10px #999;
-                        width: 100%;
-                        font-family: 'Microsoft YaHei';
-                        font-size: 24px;
-                        font-weight: normal;
-                        line-height: 50px;
-                        text-indent: 2em;
-                        a {
-                            color: #fff;
-                        }
-                    }
-                    .list14 {
-                        width: 90%;
-                        margin: 15px auto 0 auto;
-                        list-style: none;
-                        li {
-                            display: inline-block;
-                            font-family: 'SimSun';
-                            font-size: 14px;
-                            padding: 0px 0 10px 0;
-                            height: 26px;
-                            line-height: 26px;
-                            overflow: hidden;
-                            a {
-                                color: #333;
-                            }
-                            .xian {
-                                margin: 0 5px;
-                                color: #ccc;
-                            }
-                        }
-                    }
-                    .cpc_zt {
-                        width: 90%;
-                        margin: 0 auto;
-                        line-height: 200%;
-                        text-align: left;
-                        a {
-                            color: #333;
-                            font-size: 12px;
-                        }
-                        img {
-                            float: left;
-                            margin-right: 15px;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    .news-detail {
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
-
-    .empty-news {
-        margin-top: 100px;
-        margin-bottom: 100px;
-    }
-
-    .comment-card {
-        margin-top: 10px;
-        margin-bottom: 15px;
-    }
-
-    .comment-form {
-        padding-top: 10px;
-        .ant-form-item-label {
-            margin-bottom: 10px;
-        }
-    }
-
-    .comment-btn {
-        text-align: left;
-    }
-
-    .userpic-container {
-        padding-top:20px;
-        .avatar-container {
-            vertical-align: middle;
-            display: inline-block;
-            width: 80px;
-            height: 80px;
-            border-radius: 40px;
-            margin: 12px 52px 12px 12px;
-            i {
-                line-height: 80px;
-            }
-        }
-        .upload-pic {
-            margin: 60px auto;
-            display: block;
-        }
-        .ant-upload-list-picture-card {
-            .ant-upload-list-item-done,
-            .ant-upload-list-item-uploading {
-                margin: 0 40px 0 0;
-            }
-        }
-        .ant-upload-select-picture-card {
-            margin: 0;
-            display: inline-block;
-            .ant-upload {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 0px;
-                .upload-btn {
-                    padding: 0px;
-                }
-            }
-        }
-        .upload-modal {
-            img {
-                width: 100%;
-            }
-        }
-    }
+.demo-infinite-container {
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    overflow:auto;
+    padding: 8px 24px;
+    height: 750px;
+  }
+  .demo-loading {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+  }

@@ -27,6 +27,7 @@ export default class Detail extends PureComponent {
     }
 
     componentWillUnmount() {
+        document.title='React News'
         this._isMounted = false;
     }
 
@@ -92,7 +93,7 @@ export default class Detail extends PureComponent {
                 <Col span={6} offset={1}>
                     {type ? <ImageList cardTitle='相关新闻' count={30} type={type} cardWidth='80%' imgWidth='130px' /> : '正在加载中'}
                 </Col>
-                <Col span={3} />
+                <Col span={2} />
             </Row>
         )
     }
