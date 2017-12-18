@@ -53,36 +53,10 @@ export default class Detail extends PureComponent {
 
     render() {
         const { newsItem } = this.state;
-        let type;
-        switch (newsItem.realtype) {
-            case '头条':
-                type = 'top';
-                break;
-            case '娱乐':
-                type = 'yule';
-                break;
-            case '军事':
-                type = 'junshi';
-                break;
-            case '财经':
-                type = 'caijing';
-                break;
-            case '国际':
-                type = 'guoji';
-                break;
-            case '国内':
-                type = 'guonei';
-                break;
-            case '科技':
-                type = 'keji';
-                break;
-            case '时尚':
-                type = 'shishang';
-                break;
-            default:
-                type = undefined;
-                break;
-        }
+        const typeMap=new Map([
+            ['头条','top'],['娱乐','yule'],['军事','junshi'],['财经','caijing'],['国际','guoji'],['国内','guonei'],['科技','keji'],['时尚','shishang']
+        ])
+        const type=typeMap.get(newsItem.realtype);
         return (
             <Row>
                 <Col span={6} />

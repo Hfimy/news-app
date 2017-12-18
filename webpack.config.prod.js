@@ -11,12 +11,6 @@ module.exports = {
         filename: '[name].bundle.js',
     },
     devtool: 'eval-source-map',
-    // devServer: {
-    //     contentBase: path.resolve(__dirname, 'public'),
-    //     historyApiFallback: true,
-    //     inline: true,
-    //     hot: true,
-    // },
     module: {
         rules: [
             {
@@ -29,22 +23,41 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
-                        'css-loader',
-                        'less-loader',
-                        // 'postcss-loader'
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                minimize: true,
+                            }
+                        },
+                        'less-loader'
                     ]
                 })
             },
             {
-                test: /\.jpe?g|\.png|\.gif$/,
-                loader: 'url-loader?limit=8192&name=image/[name].[ext]'
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: 'html-loader',
+                        options: {
+                            minimize: true,
+                        }
+                    }
+                ],
+            },
+            {
+                test: /\.(woff|woff2|ttf|eot|svg)$/,
+                loader: 'url-loader?limit=10000&name=./font/[name].[ext]'
+            },
+            {
+                test: /\.(jpe?g|png|gif)$/,
+                loader: 'url-loader?limit=8196&name=./image/[name].[ext]'
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src/index.tmpl.html'),
-            favicon: path.resolve(__dirname, 'public/static/favicon.ico')
+            favicon: path.resolve(__dirname, 'src/favicon.ico')
         }),
         new webpack.BannerPlugin('版权所有，翻版必究'),
         new webpack.optimize.CommonsChunkPlugin({

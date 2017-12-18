@@ -15,6 +15,7 @@ module.exports = {
         inline: true,
         hot: true,
         port: 8081,
+        open: true
     },
     module: {
         rules: [
@@ -25,22 +26,42 @@ module.exports = {
             },
             {
                 test: /\.css|\.less$/,
-                use: ['style-loader',
-                    'css-loader',
-                    'less-loader',
-                    //  'postcss-loader'
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            minimize: true,
+                        }
+                    },
+                    'less-loader'
                 ]
             },
             {
-                test:/\.jpe?g|\.png|\.gif$/,
-                loader:'url-loader?limit8192&name=image/[name].[ext]'
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: 'html-loader',
+                        options: {
+                            minimize: true,
+                        }
+                    }
+                ],
+            },
+            {
+                test: /\.(woff|woff2|ttf|eot|svg)$/,
+                loader: 'url-loader?limit=8192'
+            },
+            {
+                test: /\.(jpe?g|png|gif)$/,
+                loader: 'url-loader?limit=8192'
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src/index.tmpl.html'),
-            favicon: path.resolve(__dirname, 'public/static/favicon.ico')
+            favicon: path.resolve(__dirname, 'src/favicon.ico')
         }),
         new webpack.HotModuleReplacementPlugin(),
     ]
