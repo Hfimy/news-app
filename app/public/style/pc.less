@@ -1,5 +1,9 @@
-@import './font.css';
-@import './index.css';
+body {
+    min-width: 1405px;
+    /* 让浏览器右侧始终占据滚动条的宽度，不会引起不同页面切换时因滚动条是否存在而导致页面重绘 */
+    overflow-y: scroll;
+}
+
 header {
     margin-bottom: 10px;
 }
@@ -153,7 +157,7 @@ footer {
                 height: 650px;
                 h2 {
                     height: 50px;
-                    background: url('../static/image/p6.jpg') no-repeat 10px 10px #999;
+                    background: url('../image/p6.jpg') no-repeat 10px 10px #999;
                     width: 100%;
                     font-family: 'Microsoft YaHei';
                     font-size: 24px;
@@ -286,20 +290,22 @@ footer {
         height: 95%;
     }
 }
-.ant-list-item-meta-title{
+
+.ant-list-item-meta-title {
     // margin-bottom:10px;
-    padding-bottom:10px;
+    padding-bottom: 10px;
 }
 
 .demo-infinite-container {
     border: 1px solid #e8e8e8;
     border-radius: 4px;
-    overflow:auto;
+    overflow: auto;
     padding: 8px 24px;
     height: 750px;
-  }
-  .demo-loading {
+}
+
+.demo-loading {
     position: absolute;
     bottom: -5px;
     left: 50%;
-  }
+}

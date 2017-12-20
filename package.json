@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "start webpack-dev-server --public",
-    "build": "set NODE_ENV=production && start webpack --config ./webpack.production.config.js --progress"
+    "dev": "set NODE_ENV=dev && start webpack-dev-server --public",
+    "build": "set NODE_ENV=production && start webpack --config webpack.production.config.js --progress"
   },
   "author": "",
   "license": "ISC",
@@ -21,9 +21,12 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.17",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
     "html-loader": "^0.5.1",
     "html-webpack-plugin": "^2.30.1",
     "less": "^2.7.3",

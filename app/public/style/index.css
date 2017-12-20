@@ -1,13 +1,10 @@
+@import './font.css';
 
 *{
    margin:0;
    padding:0;
 }
-body{
-    min-width:1405px;
-    /* 让浏览器右侧始终占据滚动条的宽度，不会引起不同页面切换时因滚动条是否存在而导致页面重绘 */
-    overflow-y: scroll;
-}
+
 .clearfix:before{
     content: '';
     clear:both;

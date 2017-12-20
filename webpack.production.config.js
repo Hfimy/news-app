@@ -1,16 +1,17 @@
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const CleanWebpackPlugin=require('clean-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-    entry: path.resolve(__dirname, 'src/index.js'),
+    entry: path.resolve(__dirname, 'app/src/index.js'),
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].bundle.js',
+        filename: '[name].bundle.[chunkhash:8].js',
     },
-    devtool: 'eval-source-map',
     module: {
         rules: [
             {
@@ -29,9 +30,18 @@ module.exports = {
                                 minimize: true,
                             }
                         },
+                        'postcss-loader',
                         'less-loader'
                     ]
                 })
+            },
+            {
+                test: /\.(woff|woff2|ttf|eot|svg)$/,
+                loader: 'url-loader?limit=8192&name=font/[name].[ext]'
+            },
+            {
+                test: /\.(jpe?g|png|gif)$/,
+                loader: 'url-loader?limit=8192&name=image/[name].[ext]'
             },
             {
                 test: /\.html$/,
@@ -43,31 +53,30 @@ module.exports = {
                         }
                     }
                 ],
-            },
-            {
-                test: /\.(woff|woff2|ttf|eot|svg)$/,
-                loader: 'url-loader?limit=10000&name=./font/[name].[ext]'
-            },
-            {
-                test: /\.(jpe?g|png|gif)$/,
-                loader: 'url-loader?limit=8196&name=./image/[name].[ext]'
             }
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(['dist']),
+        new webpack.BannerPlugin('版权所有，翻版必究 - hfimy'),
+        
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'src/index.tmpl.html'),
-            favicon: path.resolve(__dirname, 'src/favicon.ico')
+            template: path.resolve(__dirname, 'app/src/index.tmpl.html'),
+            favicon: path.resolve(__dirname, 'app/src/favicon.ico')
         }),
-        new webpack.BannerPlugin('版权所有，翻版必究'),
+        new ExtractTextPlugin('styles.[chunkhash:8].css'),
+
+        new UglifyJsPlugin(),     
+        new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'commons',
-            filename: 'commons.js'
+            filename: '[name].[chunkhash:8].js'
         }),
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        // new webpack.optimize.UglifyJsPlugin(),
-        new UglifyJsPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new ExtractTextPlugin('styles.css'),
+
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+            }
+        })
     ]
 }
