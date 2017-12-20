@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 import { Link } from 'react-router'
 
-import { handleResponse } from '../common/util'
+import { handleResponse } from '../../common/util'
 
 //添加发布订阅库，实现跨组件间通信
 import PubSub from 'pubsub-js'

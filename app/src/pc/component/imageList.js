@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import { Card, message } from 'antd'
-import { handleResponse } from '../common/util'
+import { handleResponse } from '../../common/util'
 
-import '../../public/style/pc-imageList.less'
+import '../../../public/style/pc-imageList.less'
 
 export default class ImageList extends PureComponent {
 

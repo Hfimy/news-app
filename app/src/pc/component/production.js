@@ -22,7 +22,7 @@ export default class Product extends PureComponent {
                     <li><a href="http://dangshi.people.com.cn/n1/2017/1213/c85037-29703057.html" target="_blank">游击战争“十六字诀”的形成与发展</a></li>
                 </ul >
                 <div className="cpc_zt clearfix">
-                    <a href="http://jhsjk.people.cn/" target="_blank"><img src={`${require('../../public/image/p5.jpg')}`} width={80} height={80} border={0} /></a>
+                    <a href="http://jhsjk.people.cn/" target="_blank"><img src={`${require('../../../public/image/p5.jpg')}`} width={80} height={80} border={0} /></a>
                     <a href="http://cpc.people.com.cn/GB/67481/415067/index.html" target="_blank">学习贯彻十九大精神</a>|
                     <a href="http://dangjian.people.com.cn/n1/2017/1129/c117092-29673930.html" target="_blank">主题征文</a><br />
                     <a href="http://dangjian.people.com.cn/GB/136058/415189/index.html" target="_blank">十九大报告学习问答</a>|

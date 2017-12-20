@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import {BackTop} from 'antd'
 
-import Header from './header';
-import Footer from './footer';
+import Header from '../component/header';
+import Footer from '../../common/footer';
 
 export default class App extends PureComponent {
     render() {

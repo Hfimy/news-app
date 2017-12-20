@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import ImageList from './imageList'
-import Comment from '../common/comment'
+import ImageList from '../component/imageList'
+import Comment from '../../common/comment'
 
 import { Row, Col, message } from 'antd'
-import { handleResponse } from '../common/util'
+import { handleResponse } from '../../common/util'
 
 export default class Detail extends PureComponent {
 

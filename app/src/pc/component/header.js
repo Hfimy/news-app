@@ -4,10 +4,10 @@ import { Link } from 'react-router'
 //添加发布订阅库，接收来自用户中心头像设置的通知
 import PubSub from 'pubsub-js'
 
-import { Row, Col, Menu, Icon, Modal, Button, Tabs, Form, Input, message, Avatar, Tooltip } from 'antd'
-import { handleResponse } from '../common/util'
+import { Row, Col, Menu, Icon, Modal, Button,  Form, Input, message, Avatar, Tooltip } from 'antd'
+import { handleResponse } from '../../common/util'
 
-const TabPane = Tabs.TabPane, FormItem = Form.Item;
+const  FormItem = Form.Item;
 
 class Header extends PureComponent {
     state = {
@@ -154,7 +154,7 @@ class Header extends PureComponent {
                     <Col span={3}></Col>
                     <Col span={3} class='logo'>
                         <Link to='/'>
-                            <img src={`${require('../../public/image/logo.png')}`} />
+                            <img src={`${require('../../../public/image/logo.png')}`} />
                             <span>新闻首页</span>
                         </Link>
                     </Col>

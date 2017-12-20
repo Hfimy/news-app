@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router'
 
-import NewsList from './newsList'
-import ImageList from './imageList'
-import Product from './production'
+import NewsList from '../component/newsList'
+import ImageList from '../component/imageList'
+import Product from '../component/production'
 
 import { Row, Col, Carousel, Tabs } from 'antd'
-import { handleResponse } from '../common/util'
+import { handleResponse } from '../../common/util'
 
 const TabPane = Tabs.TabPane;
 
@@ -33,10 +33,10 @@ export default class Container extends PureComponent {
                         <div class='left clearfix'>
                             <div class='carousel clearfix'>
                                 <Carousel autoplay={true}>
-                                    <Link to='/detail/161028202106247'><img src={`${require('../../public/image/p1.jpeg')}`} /></Link>
-                                    <Link to='/detail/161028200451646'><img src={`${require('../../public/image/p2.jpeg')}`} /></Link>
-                                    <Link to='/detail/160918190420094'><img src={`${require('../../public/image/p3.jpeg')}`} /></Link>
-                                    <Link to='/detail/161022131757539'><img src={`${require('../../public/image/p4.jpg')}`} /></Link>
+                                    <Link to='/detail/161028202106247'><img src={`${require('../../../public/image/p1.jpeg')}`} /></Link>
+                                    <Link to='/detail/161028200451646'><img src={`${require('../../../public/image/p2.jpeg')}`} /></Link>
+                                    <Link to='/detail/160918190420094'><img src={`${require('../../../public/image/p3.jpeg')}`} /></Link>
+                                    <Link to='/detail/161022131757539'><img src={`${require('../../../public/image/p4.jpg')}`} /></Link>
                                 </Carousel>
                             </div>
                             <ImageList type='junshi' count={6} cardTitle='军事新闻' imgWidth='110px' />
