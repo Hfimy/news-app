@@ -1,16 +1,20 @@
+const package = require('./package.json');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const CleanWebpackPlugin=require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-    entry: path.resolve(__dirname, 'app/src/index.js'),
+    entry: {
+        app: path.resolve(__dirname, 'app/src/index.js'),
+        vendor: Object.keys(package.dependencies)
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].bundle.[chunkhash:8].js',
+        filename: '[name].[chunkhash:8].js',
     },
     module: {
         rules: [
@@ -59,24 +63,25 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new webpack.BannerPlugin('版权所有，翻版必究 - hfimy'),
-        
+
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'app/src/index.tmpl.html'),
             favicon: path.resolve(__dirname, 'app/src/favicon.ico')
         }),
         new ExtractTextPlugin('styles.[chunkhash:8].css'),
 
-        new UglifyJsPlugin(),     
+        new UglifyJsPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'commons',
+            name: 'common',
             filename: '[name].[chunkhash:8].js'
         }),
 
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-            }
+            },
+            __DEV__: false
         })
     ]
 }

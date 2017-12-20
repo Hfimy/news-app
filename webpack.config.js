@@ -17,7 +17,7 @@ module.exports = {
             },
             {
                 test: /\.css|\.less$/,
-                loader:'style-loader!css-loader!postcss-loader!less-loader'
+                loader: 'style-loader!css-loader!postcss-loader!less-loader'
             },
             {
                 test: /\.(woff|woff2|ttf|eot|svg)$/,
@@ -25,7 +25,7 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif)$/,
-                loader:'url-loader?limit=8192&name=image/[name].[ext]',
+                loader: 'url-loader?limit=8192&name=image/[name].[ext]',
             },
         ]
     },
@@ -47,5 +47,8 @@ module.exports = {
             favicon: path.resolve(__dirname, 'app/src/favicon.ico')
         }),
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            __DEV__: JSON.stringify(JSON.parse((process.env.NODE_ENV === 'dev') || false))
+        })
     ]
 }
