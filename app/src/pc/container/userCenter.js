@@ -261,7 +261,7 @@ export default class UserCenter extends PureComponent {
                                     name='avatar'
                                     listType='picture-card'
                                     showUploadList={false}
-                                    action="//jsonplaceholder.typicode.com/posts/"
+                                    action="http://jsonplaceholder.typicode.com/posts/"
                                     beforeUpload={this.beforeUpload}
                                     customRequest={this.uploadAvatar}
                                 >
@@ -272,7 +272,7 @@ export default class UserCenter extends PureComponent {
                                 <Upload
                                     class='upload-pic'
                                     listType='picture-card'
-                                    action='//jsonplaceholder.typicode.com/posts/'
+                                    action='http://jsonplaceholder.typicode.com/posts/'
                                     fileList={fileList}
                                     beforeUpload={this.beforeUpload}
                                     onPreview={this.handlePreview}
