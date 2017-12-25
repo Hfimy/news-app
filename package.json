@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "set NODE_ENV=dev && start webpack-dev-server --public",
+    "dev": "start webpack-dev-server --public",
     "build": "set NODE_ENV=production && start webpack --config webpack.production.config.js --progress"
   },
   "author": "",
