@@ -88,7 +88,7 @@ class Comment extends PureComponent {
         const { commentList } = this.state;
         const comments = commentList.length
             ? commentList.map((item, index) => (
-                <Card class='comment-card' key={index} title={item.UserName} extra={<span>{item.datetime}</span>}>
+                <Card class='testonly comment-card' key={index} title={item.UserName} extra={<span>{item.datetime}</span>}>
                     <p>{item.Comments}</p>
                 </Card>
             ))

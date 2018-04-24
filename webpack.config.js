@@ -1,12 +1,16 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const package = require('./package.json');
 
 module.exports = {
-    entry: path.resolve(__dirname, 'app/src/index.js'),
+    entry: {
+        app: path.resolve(__dirname, 'app/src/index.js'),
+        vendor: Object.keys(package.dependencies)
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js',
+        filename: '[name].[hash:8].js',
     },
     module: {
         rules: [

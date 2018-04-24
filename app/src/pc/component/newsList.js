@@ -48,6 +48,4 @@ export default class NewsList extends PureComponent {
             </Card>
         )
     }
-
-
 }

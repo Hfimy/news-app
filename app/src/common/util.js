@@ -11,19 +11,20 @@ export function handleResponse(res) {
 }
 
 function handleContentTypeResponse(res) {
-    // const contentType = res.headers.get('content-type');
-    // console.log(contentType)
-    // if (contentType.includes('application/json')) {
-    //     // return handleJSONResponse(res)
-    //     return res.json();
-    // }
-    // if (contentType.includes('text/')) {
-    //     // return Object.assign({}, res.text(), { status: res.status, statusText: res.statusText })
-    //     return res.text();
-    // }
-    // if (contentType.includes('image')) {
-    //     return Object.assign({}, res.blob(), { status: res.status, statusText: res.statusText })
-    // }
+    const contentType = res.headers.get('content-type');
+    console.log(contentType)
+    if (contentType.includes('application/json')) {
+        // return handleJSONResponse(res)
+        return res.json();
+    }
+    if (contentType.includes('text/')) {
+        // return Object.assign({}, res.text(), { status: res.status, statusText: res.statusText })
+        return res.json()
+    }
+    if (contentType.includes('image')) {
+        // return Object.assign({}, res.blob(), { status: res.status, statusText: res.statusText })
+        // return res.blob();
+    }
     // others type
     return res.json();
 }

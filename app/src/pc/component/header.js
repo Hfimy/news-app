@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 //添加发布订阅库，接收来自用户中心头像设置的通知
 import PubSub from 'pubsub-js'
 
-import { Row, Col, Menu, Icon, Modal, Button,  Form, Input, message, Avatar, Tooltip } from 'antd'
+import { Row, Col, Menu,  Modal, Button,  Form, Input, message, Avatar, Tooltip } from 'antd'
 import { handleResponse } from '../../common/util'
 
 const  FormItem = Form.Item;
@@ -137,7 +137,7 @@ class Header extends PureComponent {
                 <Button type='dashed' onClick={this.handleLogout}><Link to='/'>退出</Link></Button>
                 {/* <a class='avatar-link' onClick={() => this.scrollToAnchor('avatar')}>  锚点跳转</a> */}
             </Menu.Item>
-            : <Menu.Item key='login' className='fr'><Icon type='appstore' />注册/登录
+            : <Menu.Item key='login' className='fr'>注册/登录
             </Menu.Item>;
         const formItemLayout = {
             labelCol: {
@@ -160,14 +160,14 @@ class Header extends PureComponent {
                     </Col>
                     <Col span={15}>
                         <Menu defaultSelectedKeys={['home']} selectedKeys={[this.state.current]} onClick={this.handleClick} mode="horizontal">
-                            <Menu.Item key='home'><Link to='/'><Icon type='home' />首页</Link></Menu.Item>
-                            <Menu.Item key='entertainment'><Icon type='appstore' />娱乐</Menu.Item>
-                            <Menu.Item key='military'><Icon type='appstore' />军事</Menu.Item>
-                            <Menu.Item key='sports'><Icon type='appstore' />体育</Menu.Item>
-                            <Menu.Item key='domestic'><Icon type='appstore' />国内</Menu.Item>
-                            <Menu.Item key='international'><Icon type='appstore' />国际</Menu.Item>
-                            <Menu.Item key='finance'><Icon type='appstore' />财经</Menu.Item>
-                            <Menu.Item key='technology'><Icon type='appstore' />科技</Menu.Item>
+                            <Menu.Item key='home'><Link to='/'>首页</Link></Menu.Item>
+                            <Menu.Item key='entertainment'>娱乐</Menu.Item>
+                            <Menu.Item key='military'>军事</Menu.Item>
+                            <Menu.Item key='sports'>体育</Menu.Item>
+                            <Menu.Item key='domestic'>国内</Menu.Item>
+                            <Menu.Item key='international'>国际</Menu.Item>
+                            <Menu.Item key='finance'>财经</Menu.Item>
+                            <Menu.Item key='technology'>科技</Menu.Item>
                             {userCenter}
                         </Menu>
                         <Modal title='登录中心' visible={showLoginModal} onCancel={this.handleLoginCancel}
@@ -177,14 +177,14 @@ class Header extends PureComponent {
                                     {getFieldDecorator('username', {
                                         rules: [{ required: true, message: 'Please input your username!' }],
                                     })(
-                                        <Input prefix={<Icon type='user' />} placeholder='Username' />
+                                        <Input  placeholder='Username' />
                                         )}
                                 </FormItem>
                                 <FormItem label='密码' {...formItemLayout}>
                                     {getFieldDecorator('password', {
                                         rules: [{ required: true, message: 'Please input your password!' }],
                                     })(
-                                        <Input prefix={<Icon type='lock' />} type='password' placeholder='Password' />
+                                        <Input  type='password' placeholder='Password' />
                                         )}
                                 </FormItem>
                                 <FormItem>
@@ -203,14 +203,14 @@ class Header extends PureComponent {
                                     {getFieldDecorator('re_username', {
                                         rules: [{ required: true, message: 'Please input your username!' }],
                                     })(
-                                        <Input prefix={<Icon type='user' />} placeholder='Username' />
+                                        <Input  placeholder='Username' />
                                         )}
                                 </FormItem>
                                 <FormItem label='密码' {...formItemLayout}>
                                     {getFieldDecorator('re_password', {
                                         rules: [{ required: true, message: 'Please input your password!' }],
                                     })(
-                                        <Input prefix={<Icon type='lock' />} type='password' placeholder='Password' />
+                                        <Input  type='password' placeholder='Password' />
                                         )}
                                 </FormItem>
                                 <FormItem label='确认密码' {...formItemLayout}>
@@ -218,7 +218,7 @@ class Header extends PureComponent {
                                         rules: [{ required: true, message: 'Please input your password!' },
                                         { validator: this.checkPassword }],
                                     })(
-                                        <Input prefix={<Icon type='lock' />} type='password' placeholder='Confirm password' />
+                                        <Input  type='password' placeholder='Confirm password' />
                                         )}
                                 </FormItem>
                                 <FormItem className='footer-btn'>
